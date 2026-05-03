@@ -13,31 +13,84 @@
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" type="image/png" href="favicon.png">
 <link rel="apple-touch-icon" href="favicon.png">
-<link href="https://fonts.googleapis.com/css2?family=Italiana&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Italiana&family=DM+Sans:wght@200;300;400;500&display=swap" rel="stylesheet">
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
   --navy: #021f5a;
+  --navy-deep: #01133a;
   --navy-light: #052a78;
   --cream: #f5f3ef;
-  --cream-dim: rgba(245,243,239,0.7);
-  --cream-faint: rgba(245,243,239,0.12);
+  --cream-dim: rgba(245,243,239,0.72);
+  --cream-soft: rgba(245,243,239,0.5);
+  --cream-faint: rgba(245,243,239,0.14);
+  --cream-whisper: rgba(245,243,239,0.06);
+  --gold: #c9a87c;
+  --gold-light: #d9bc94;
+  --gold-soft: rgba(201,168,124,0.5);
+  --gold-faint: rgba(201,168,124,0.18);
   --serif: 'Italiana', Georgia, serif;
   --sans: 'DM Sans', sans-serif;
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-html { scroll-behavior: smooth; background: #021f5a; }
+::selection { background: var(--gold); color: var(--navy-deep); }
+
+html { scroll-behavior: smooth; background: var(--navy-deep); }
 
 body {
-  font-family: 'DM Sans', sans-serif;
-  background: #021f5a;
-  color: #f5f3ef;
+  font-family: var(--sans);
+  background: var(--navy-deep);
+  color: var(--cream);
   font-size: 16px;
   line-height: 1.7;
   overflow-x: hidden;
+  position: relative;
+  font-weight: 300;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-feature-settings: 'kern' 1, 'liga' 1;
 }
 
+/* Atmosphere */
+.bg-glow {
+  position: fixed; inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background:
+    radial-gradient(ellipse 70% 50% at 50% 0%, rgba(201,168,124,0.10) 0%, transparent 60%),
+    radial-gradient(ellipse 80% 60% at 0% 100%, rgba(5,42,120,0.5) 0%, transparent 55%),
+    radial-gradient(ellipse 80% 60% at 100% 50%, rgba(2,31,90,0.5) 0%, transparent 55%),
+    linear-gradient(180deg, var(--navy) 0%, var(--navy-deep) 100%);
+}
+
+.grain {
+  position: fixed; inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.07;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.6 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+}
+
+nav, footer, main, .hero, section { position: relative; z-index: 2; }
+
+/* Scroll progress */
+.scroll-progress {
+  position: fixed;
+  top: 0; left: 0;
+  height: 1.5px;
+  width: 0;
+  background: linear-gradient(90deg, var(--gold-light), var(--gold) 60%, rgba(201,168,124,0.3));
+  z-index: 1000;
+  transition: width 0.06s linear;
+  box-shadow: 0 0 12px rgba(201,168,124,0.4);
+}
+
+/* Nav */
 nav {
   position: fixed;
   top: 0; left: 0; right: 0;
@@ -45,366 +98,550 @@ nav {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 1.5rem 5rem;
-  background: rgba(2,31,90,0.92);
-  backdrop-filter: blur(16px);
-  border-bottom: 1px solid var(--cream-faint);
+  padding: 1.5rem 4rem;
+  background: rgba(1,19,58,0.55);
+  backdrop-filter: blur(20px) saturate(140%);
+  -webkit-backdrop-filter: blur(20px) saturate(140%);
+  border-bottom: 1px solid var(--cream-whisper);
+  transition: padding 0.45s var(--ease), background 0.45s var(--ease), border-color 0.45s var(--ease);
+}
+
+nav.scrolled {
+  padding: 1rem 4rem;
+  background: rgba(1,19,58,0.85);
+  border-bottom-color: var(--cream-faint);
 }
 
 .logo {
   font-family: var(--serif);
-  font-size: 1.5rem;
+  font-size: 1.4rem;
   font-weight: 300;
-  letter-spacing: 0.3em;
+  letter-spacing: 0.42em;
   color: var(--cream);
   text-decoration: none;
+  position: relative;
+  padding-bottom: 4px;
 }
+.logo::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0;
+  width: 18px; height: 1px;
+  background: var(--gold);
+  transition: width 0.5s var(--ease);
+}
+.logo:hover::after { width: 100%; }
 
-.nav-links { display: flex; gap: 2.5rem; list-style: none; }
-
+.nav-links { display: flex; gap: 2.4rem; list-style: none; }
 .nav-links a {
-  font-size: 0.8rem;
+  font-size: 0.72rem;
   font-weight: 400;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: var(--cream-dim);
+  color: var(--cream-soft);
   text-decoration: none;
-  transition: color 0.2s;
+  transition: color 0.3s var(--ease);
+  position: relative;
+  padding: 0.3rem 0;
 }
-
+.nav-links a::after {
+  content: '';
+  position: absolute;
+  left: 0; bottom: 0;
+  width: 0; height: 1px;
+  background: var(--gold);
+  transition: width 0.4s var(--ease);
+}
 .nav-links a:hover { color: var(--cream); }
+.nav-links a:hover::after { width: 100%; }
 
+/* Hero */
 .hero {
   min-height: 100vh;
+  min-height: 100svh;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   text-align: center;
-  padding: 8rem 5rem 5rem;
+  padding: 9rem 4rem 6rem;
   position: relative;
-  border-bottom: 1px solid var(--cream-faint);
+  overflow: hidden;
 }
 
-.hero-label {
-  font-size: 0.75rem;
-  letter-spacing: 0.2em;
+.hero::after {
+  content: '';
+  position: absolute;
+  bottom: 30px; left: 50%;
+  transform: translateX(-50%);
+  width: 1px; height: 60px;
+  background: linear-gradient(180deg, transparent, var(--gold-soft));
+  animation: scrollPulse 2.6s var(--ease) infinite;
+}
+@keyframes scrollPulse {
+  0%, 100% { opacity: 0.25; transform: translateX(-50%) scaleY(0.5); }
+  50%      { opacity: 1;    transform: translateX(-50%) scaleY(1); }
+}
+
+.hero-eyebrow {
+  font-size: 0.68rem;
+  letter-spacing: 0.42em;
   text-transform: uppercase;
-  color: var(--cream-dim);
-  margin-bottom: 2rem;
+  color: var(--gold);
+  margin-bottom: 2.5rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 1rem;
+  opacity: 0;
+  animation: fadeUp 1s var(--ease) 0.25s forwards;
+}
+.hero-eyebrow::before, .hero-eyebrow::after {
+  content: '';
+  width: 32px; height: 1px;
+  background: var(--gold-soft);
+}
+
+.hero-logo {
+  height: clamp(110px, 20vw, 240px);
+  margin-bottom: 2.8rem;
+  display: block;
+  opacity: 0;
+  animation: fadeUp 1.4s var(--ease) 0.5s forwards;
 }
 
 .hero h1 {
   font-family: var(--serif);
-  font-size: clamp(5rem, 15vw, 14rem);
+  font-size: clamp(1.6rem, 3vw, 2.6rem);
   font-weight: 400;
-  line-height: 1;
-  max-width: 100%;
-  margin-bottom: 3rem;
-  letter-spacing: 0.1em;
+  font-style: italic;
+  line-height: 1.35;
+  max-width: 760px;
+  margin-bottom: 2rem;
+  letter-spacing: 0.01em;
+  color: var(--cream);
+  opacity: 0;
+  animation: fadeUp 1.2s var(--ease) 0.75s forwards;
 }
 
 .hero p {
   font-size: 1rem;
   font-weight: 300;
   color: var(--cream-dim);
-  max-width: 560px;
+  max-width: 600px;
   margin-bottom: 3rem;
-  line-height: 1.8;
-  text-align: center;
+  line-height: 1.85;
+  opacity: 0;
+  animation: fadeUp 1.2s var(--ease) 0.95s forwards;
 }
 
 .hero-cta {
-  display: inline-block;
-  padding: 0.85rem 2.5rem;
-  border: 1px solid #f5f3ef;
-  background: #f5f3ef;
-  color: #021f5a;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 1.05rem 2.7rem;
+  border: 1px solid var(--cream);
+  background: var(--cream);
+  color: var(--navy);
   text-decoration: none;
-  font-size: 0.8rem;
-  letter-spacing: 0.15em;
+  font-size: 0.75rem;
+  letter-spacing: 0.22em;
   text-transform: uppercase;
   font-weight: 500;
-  transition: background 0.25s, border-color 0.25s;
-  width: fit-content;
-  margin-bottom: 3rem;
+  transition: background 0.4s var(--ease), color 0.4s var(--ease);
+  opacity: 0;
+  animation: fadeUp 1.2s var(--ease) 1.15s forwards;
 }
-
-.hero-cta:hover { background: rgba(245,243,239,0.85); }
+.hero-cta::after { content: '→'; font-size: 0.95rem; transition: transform 0.35s var(--ease); }
+.hero-cta:hover { background: transparent; color: var(--cream); }
+.hero-cta:hover::after { transform: translateX(5px); }
 
 .hero-cities {
-  font-size: 0.75rem;
-  letter-spacing: 0.18em;
-  color: var(--cream-dim);
+  font-size: 0.68rem;
+  letter-spacing: 0.32em;
+  color: var(--cream-soft);
   text-transform: uppercase;
-  white-space: nowrap;
-  margin-top: 2rem;
+  margin-top: 4rem;
+  display: flex;
+  align-items: center;
+  gap: 1.1rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  opacity: 0;
+  animation: fadeUp 1.2s var(--ease) 1.35s forwards;
+}
+.hero-cities .dot {
+  display: inline-block;
+  width: 3px; height: 3px;
+  border-radius: 50%;
+  background: var(--gold);
+  opacity: 0.7;
 }
 
-section { padding: 7rem 5rem; border-bottom: 1px solid var(--cream-faint); background: #021f5a; }
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(28px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Sections */
+section {
+  padding: 8rem 4rem;
+  border-top: 1px solid var(--cream-whisper);
+}
+
+.section-header {
+  display: flex;
+  align-items: baseline;
+  gap: 1.8rem;
+  margin: 0 auto 5rem;
+  max-width: 1100px;
+}
+
+.section-num {
+  font-family: var(--serif);
+  font-size: 1rem;
+  font-style: italic;
+  color: var(--gold);
+  letter-spacing: 0.05em;
+  flex-shrink: 0;
+}
 
 .section-label {
   font-size: 0.7rem;
-  letter-spacing: 0.25em;
+  letter-spacing: 0.32em;
   text-transform: uppercase;
-  color: var(--cream-dim);
-  margin-bottom: 3.5rem;
+  color: var(--cream-soft);
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 1.2rem;
+  flex: 1;
 }
-
 .section-label::after {
   content: '';
+  flex: 1;
   height: 1px;
-  background: var(--cream-faint);
-  width: 60px;
+  background: linear-gradient(90deg, var(--cream-faint), transparent);
 }
 
-.challenges-grid {
+/* Cards */
+.challenges-grid, .tracks {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 2rem;
-  max-width: 1000px;
+  gap: 1.5rem;
+  max-width: 1100px;
   margin: 0 auto;
 }
 
-.challenge-block {
-  padding: 2.5rem;
+.challenge-block, .track {
+  padding: 2.8rem 2.4rem;
+  background: linear-gradient(180deg, rgba(5,42,120,0.4) 0%, rgba(5,42,120,0.12) 100%);
   border: 1px solid var(--cream-faint);
-  background: rgba(5,42,120,0.2);
-  display: flex;
-  flex-direction: column;
+  position: relative;
+  transition: transform 0.55s var(--ease), border-color 0.55s var(--ease), background 0.55s var(--ease);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  overflow: hidden;
 }
+.challenge-block::before, .track::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold-soft), transparent);
+  opacity: 0;
+  transition: opacity 0.5s var(--ease);
+}
+.challenge-block:hover, .track:hover {
+  transform: translateY(-4px);
+  border-color: var(--gold-faint);
+  background: linear-gradient(180deg, rgba(5,42,120,0.55) 0%, rgba(5,42,120,0.22) 100%);
+}
+.challenge-block:hover::before, .track:hover::before { opacity: 1; }
 
-.challenge-block h3 {
+.challenge-block h3, .track h3 {
   font-family: var(--serif);
-  font-size: 1.4rem;
+  font-size: 1.5rem;
   font-weight: 300;
   font-style: italic;
-  margin-bottom: 1.5rem;
-  padding-bottom: 1rem;
+  line-height: 1.4;
+  margin-bottom: 1.8rem;
+  padding-bottom: 1.4rem;
   border-bottom: 1px solid var(--cream-faint);
-  min-height: 140px;
+  color: var(--cream);
+  min-height: 130px;
   display: flex;
   align-items: flex-start;
 }
 
 .challenge-block p {
-  font-size: 0.9rem;
+  font-size: 0.92rem;
   color: var(--cream-dim);
-  line-height: 1.6;
+  line-height: 1.85;
+  font-weight: 300;
+}
+
+.track ul { list-style: none; display: flex; flex-direction: column; gap: 1.4rem; }
+.track ul li {
+  font-size: 0.92rem;
+  color: var(--cream-dim);
+  padding-left: 1.8rem;
+  position: relative;
+  line-height: 1.75;
+  font-weight: 300;
+}
+.track ul li::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0.85rem;
+  width: 14px; height: 1px;
+  background: var(--gold);
 }
 
 .challenge-conclusion {
   margin-top: 4rem;
   padding-top: 3rem;
   border-top: 1px solid var(--cream-faint);
-  max-width: 700px;
+  max-width: 760px;
   margin-left: auto;
   margin-right: auto;
   text-align: center;
 }
-
 .challenge-conclusion p {
   font-family: var(--serif);
-  font-size: 1.4rem;
+  font-size: clamp(1.2rem, 1.9vw, 1.55rem);
   font-weight: 300;
   font-style: italic;
   line-height: 1.6;
+  color: var(--cream);
 }
-
-.tracks {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 2rem;
-}
-
-.track {
-  padding: 2.5rem;
-  border: 1px solid var(--cream-faint);
-  background: rgba(5,42,120,0.2);
-}
-
-.track h3 {
-  font-family: var(--serif);
-  font-size: 1.4rem;
-  font-weight: 300;
-  font-style: italic;
-  margin-bottom: 1.5rem;
-  padding-bottom: 1rem;
-  border-bottom: 1px solid var(--cream-faint);
-  min-height: 80px;
-  display: flex;
-  align-items: flex-start;
-}
-
-.track ul { list-style: none; display: flex; flex-direction: column; gap: 1.2rem; }
-
-.track ul li {
-  font-size: 0.9rem;
-  color: var(--cream-dim);
-  padding-left: 1.5rem;
-  position: relative;
-  line-height: 1.7;
-}
-
-.track ul li::before { content: '▸'; position: absolute; left: 0; color: rgba(245,243,239,0.4); font-size: 0.7rem; top: 0.25rem; }
 
 .track-conclusion {
   grid-column: 1 / -1;
-  padding: 2rem;
-  background: var(--cream-faint);
-  border-left: 2px solid rgba(245,243,239,0.4);
+  padding: 2.6rem 3rem;
   font-family: var(--serif);
-  font-size: 1.2rem;
+  font-size: clamp(1.1rem, 1.7vw, 1.4rem);
   font-style: italic;
-  color: var(--cream-dim);
+  font-weight: 300;
+  color: var(--cream);
   text-align: center;
-  border-left: none;
   border-top: 1px solid var(--cream-faint);
   border-bottom: 1px solid var(--cream-faint);
+  background: linear-gradient(180deg, transparent, rgba(201,168,124,0.04), transparent);
+  line-height: 1.5;
+  margin-top: 1rem;
 }
 
+.challenge-block p strong, .track ul li strong {
+  color: var(--cream);
+  font-weight: 500;
+}
+
+/* Team */
 .team-grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 2rem;
+  gap: 1.5rem;
+  max-width: 1100px;
+  margin: 0 auto;
 }
 
 .team-card {
-  padding: 2rem;
+  padding: 2.5rem;
   border: 1px solid var(--cream-faint);
-  transition: background 0.25s;
+  background: linear-gradient(180deg, rgba(5,42,120,0.32) 0%, rgba(5,42,120,0.1) 100%);
   display: flex;
-  gap: 1.5rem;
+  gap: 2.5rem;
   align-items: flex-start;
+  transition: transform 0.5s var(--ease), border-color 0.5s var(--ease);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+.team-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--gold-faint);
 }
 
-.team-card:hover { background: rgba(5,42,120,0.3); }
-
 .team-card img {
-  width: 120px;
-  height: 150px;
+  width: 140px;
+  height: 175px;
   object-fit: cover;
   flex-shrink: 0;
 }
 
 .team-card-content { flex: 1; }
 
-.team-initials {
-  width: 52px;
-  height: 52px;
-  border: 1px solid var(--cream-faint);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.team-card h3 {
   font-family: var(--serif);
-  font-size: 1.2rem;
-  font-weight: 300;
-  margin-bottom: 1.5rem;
+  font-size: 1.5rem;
+  font-weight: 400;
+  margin-bottom: 0.4rem;
+  color: var(--cream);
 }
-
-.team-card h3 { font-family: var(--serif); font-size: 1.2rem; font-weight: 400; margin-bottom: 0.3rem; }
 
 .team-card .role {
-  font-size: 0.75rem;
-  letter-spacing: 0.12em;
+  font-size: 0.7rem;
+  letter-spacing: 0.22em;
   text-transform: uppercase;
-  color: var(--cream-dim);
-  margin-bottom: 1.2rem;
+  color: var(--gold);
+  margin-bottom: 1.4rem;
 }
 
-.team-card p { font-size: 0.875rem; color: var(--cream-dim); line-height: 1.75; }
+.team-card p {
+  font-size: 0.9rem;
+  color: var(--cream-dim);
+  line-height: 1.85;
+  font-weight: 300;
+}
 
+/* Partners */
 .partners-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 2rem;
+  gap: 1.5rem;
+  max-width: 1100px;
+  margin: 0 auto;
 }
 
-.partner-card { padding: 2rem 1.5rem; border: 1px solid var(--cream-faint); text-align: center; }
-.partner-card img { display: block; margin: 0 auto 1.2rem; height: 60px; object-fit: contain; }
-.partner-card h3 { font-family: var(--serif); font-size: 1.15rem; font-weight: 400; margin-bottom: 0.4rem; }
-.partner-type { font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--cream-dim); margin-bottom: 1rem; }
-.partner-card p { font-size: 0.875rem; color: var(--cream-dim); line-height: 1.75; }
+.partner-card {
+  padding: 2.6rem 2rem;
+  border: 1px solid var(--cream-faint);
+  background: linear-gradient(180deg, rgba(5,42,120,0.32) 0%, rgba(5,42,120,0.1) 100%);
+  text-align: center;
+  transition: transform 0.5s var(--ease), border-color 0.5s var(--ease);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+.partner-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--gold-faint);
+}
 
-.contact-section { text-align: center; padding: 8rem 5rem; }
+.partner-card img {
+  display: block;
+  margin: 0 auto 1.5rem;
+  height: 60px;
+  object-fit: contain;
+}
+
+.partner-card h3 {
+  font-family: var(--serif);
+  font-size: 1.25rem;
+  font-weight: 400;
+  margin-bottom: 0.5rem;
+  color: var(--cream);
+}
+
+.partner-type {
+  font-size: 0.65rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 1.2rem;
+}
+
+.partner-card p {
+  font-size: 0.875rem;
+  color: var(--cream-dim);
+  line-height: 1.8;
+  font-weight: 300;
+}
+
+/* Contact */
+.contact-section {
+  text-align: center;
+  padding: 10rem 4rem;
+  position: relative;
+  border-top: 1px solid var(--cream-whisper);
+}
+.contact-section::before {
+  content: '';
+  position: absolute;
+  top: -1px; left: 50%;
+  transform: translateX(-50%);
+  width: 220px; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold-soft), transparent);
+}
 
 .contact-section h2 {
   font-family: var(--serif);
-  font-size: clamp(2rem, 4vw, 3.5rem);
+  font-size: clamp(2.2rem, 4.5vw, 3.8rem);
   font-weight: 300;
   font-style: italic;
-  max-width: 600px;
-  margin: 0 auto 1.5rem;
+  max-width: 720px;
+  margin: 0 auto 1.8rem;
   line-height: 1.3;
+  color: var(--cream);
 }
 
-.contact-section p { color: var(--cream-dim); max-width: 500px; margin: 0 auto 2.5rem; font-size: 0.95rem; }
+.contact-section p {
+  color: var(--cream-dim);
+  max-width: 540px;
+  margin: 0 auto 3rem;
+  font-size: 0.95rem;
+  line-height: 1.85;
+  font-weight: 300;
+}
 
 .contact-link {
-  display: inline-block;
-  padding: 1rem 3rem;
-  border: 1px solid #f5f3ef;
-  background: #f5f3ef;
-  color: #021f5a;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.9rem;
+  padding: 1.15rem 3.2rem;
+  border: 1px solid var(--cream);
+  background: var(--cream);
+  color: var(--navy);
   text-decoration: none;
-  font-size: 0.8rem;
-  letter-spacing: 0.15em;
+  font-size: 0.78rem;
+  letter-spacing: 0.24em;
   text-transform: uppercase;
   font-weight: 500;
-  transition: background 0.25s;
+  transition: background 0.4s var(--ease), color 0.4s var(--ease);
 }
+.contact-link::after { content: '→'; transition: transform 0.35s var(--ease); }
+.contact-link:hover { background: transparent; color: var(--cream); }
+.contact-link:hover::after { transform: translateX(6px); }
 
-.contact-link:hover { background: rgba(245,243,239,0.85); }
-
+/* Footer */
 footer {
-  padding: 2rem 5rem;
+  padding: 2.5rem 4rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
   border-top: 1px solid var(--cream-faint);
+  flex-wrap: wrap;
+  gap: 1rem;
 }
-
-footer p { font-size: 0.75rem; color: var(--cream-dim); letter-spacing: 0.05em; }
+footer p { font-size: 0.72rem; color: var(--cream-soft); letter-spacing: 0.1em; }
+footer a { color: var(--cream-soft); text-decoration: none; transition: color 0.3s var(--ease); }
+footer a:hover { color: var(--gold); }
 
 .lang-switcher { display: flex; gap: 0.3rem; }
 .lang-btn {
   background: none;
-  border: 1px solid rgba(245,243,239,0.2);
-  color: rgba(245,243,239,0.5);
+  border: 1px solid var(--cream-faint);
+  color: var(--cream-soft);
   font-size: 0.65rem;
-  letter-spacing: 0.1em;
-  padding: 0.3rem 0.6rem;
+  letter-spacing: 0.18em;
+  padding: 0.38rem 0.72rem;
   cursor: pointer;
   font-family: var(--sans);
-  transition: all 0.2s;
+  transition: all 0.3s var(--ease);
 }
-.lang-btn:hover { border-color: rgba(245,243,239,0.5); color: var(--cream); }
-.lang-btn.active { border-color: var(--cream); color: var(--cream); }
+.lang-btn:hover { border-color: var(--gold-soft); color: var(--cream); }
+.lang-btn.active { border-color: var(--gold); color: var(--gold); }
 
-/* ANIMATIONS */
+/* Animations */
 .fade-in {
   opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 0.6s ease, transform 0.6s ease;
+  transform: translateY(32px);
+  transition: opacity 0.95s var(--ease), transform 0.95s var(--ease);
 }
-.fade-in.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-.fade-in-delay-1 { transition-delay: 0.1s; }
-.fade-in-delay-2 { transition-delay: 0.2s; }
-.fade-in-delay-3 { transition-delay: 0.3s; }
+.fade-in.visible { opacity: 1; transform: translateY(0); }
+.stagger-1 { transition-delay: 0.08s; }
+.stagger-2 { transition-delay: 0.22s; }
+.stagger-3 { transition-delay: 0.36s; }
+.stagger-4 { transition-delay: 0.5s; }
 
-/* STRONG */
-.challenge-block p strong, .track ul li strong {
-  color: var(--cream);
-  font-weight: 500;
-}
-
-
+/* Hamburger / mobile */
 .hamburger {
   display: none;
   flex-direction: column;
@@ -423,7 +660,9 @@ footer p { font-size: 0.75rem; color: var(--cream-dim); letter-spacing: 0.05em; 
   display: none;
   position: fixed;
   top: 0; left: 0; right: 0; bottom: 0;
-  background: var(--navy);
+  background: rgba(1,19,58,0.97);
+  backdrop-filter: blur(30px);
+  -webkit-backdrop-filter: blur(30px);
   z-index: 99;
   flex-direction: column;
   align-items: center;
@@ -431,57 +670,75 @@ footer p { font-size: 0.75rem; color: var(--cream-dim); letter-spacing: 0.05em; 
   gap: 2.5rem;
 }
 .mobile-menu.open { display: flex; }
-.mobile-menu a { font-family: var(--serif); font-size: 2rem; color: var(--cream); text-decoration: none; letter-spacing: 0.1em; }
+.mobile-menu a {
+  font-family: var(--serif);
+  font-size: 2rem;
+  color: var(--cream);
+  text-decoration: none;
+  letter-spacing: 0.1em;
+}
 
+/* Mobile */
 @media (max-width: 900px) {
-  nav { padding: 1.2rem 1.5rem; }
+  nav, nav.scrolled { padding: 1rem 1.5rem; }
   .nav-links { display: none; }
   .hamburger { display: flex; }
 
-  .hero { padding: 6rem 1.5rem 3rem; min-height: 100vh; height: 100svh; }
-  .hero img { max-width: 80vw; height: auto; margin-bottom: 2rem !important; }
-  .hero p { font-size: 0.9rem; margin-bottom: 2rem; }
-  .hero-cta { padding: 0.75rem 2rem; font-size: 0.75rem; margin-bottom: 1.5rem; }
+  .hero { padding: 7rem 1.5rem 5rem; }
+  .hero h1 { font-size: 1.4rem; margin-bottom: 1.4rem; padding: 0 0.5rem; }
+  .hero p { font-size: 0.92rem; margin-bottom: 2rem; }
+  .hero-cta { padding: 0.9rem 2.2rem; font-size: 0.7rem; }
+  .hero-cities { font-size: 0.6rem; gap: 0.7rem; margin-top: 3rem; letter-spacing: 0.22em; }
+  .hero-eyebrow { font-size: 0.6rem; letter-spacing: 0.32em; margin-bottom: 1.8rem; }
+  .hero-eyebrow::before, .hero-eyebrow::after { width: 18px; }
 
-  section { padding: 3rem 1.2rem; }
-  .section-label { font-size: 0.6rem; margin-bottom: 2rem; }
+  section { padding: 4.5rem 1.4rem; }
 
-  .challenges-grid { grid-template-columns: 1fr; gap: 1.5rem; }
-  .challenge-block { padding: 1.5rem; }
-  .challenge-block h3 { font-size: 1.15rem; min-height: auto; margin-bottom: 1rem; padding-bottom: 0.8rem; }
-  .challenge-block p { font-size: 0.85rem; line-height: 1.7; }
-  .challenge-conclusion { margin-top: 2rem; padding-top: 2rem; }
+  .section-header { flex-direction: column; gap: 0.6rem; align-items: stretch; margin-bottom: 2.5rem; }
+  .section-num { font-size: 0.85rem; }
+  .section-label { font-size: 0.6rem; letter-spacing: 0.24em; }
+  .section-label::after { display: none; }
+
+  .challenges-grid, .tracks { grid-template-columns: 1fr; gap: 1.2rem; }
+  .challenge-block, .track { padding: 1.8rem 1.5rem; }
+  .challenge-block h3, .track h3 { font-size: 1.15rem; min-height: auto; margin-bottom: 1.1rem; padding-bottom: 0.9rem; }
+  .challenge-block p, .track ul li { font-size: 0.85rem; line-height: 1.75; }
+  .challenge-conclusion { margin-top: 2.5rem; padding-top: 2.5rem; }
   .challenge-conclusion p { font-size: 1.1rem; }
+  .track-conclusion { padding: 1.8rem 1.4rem; font-size: 1rem; }
 
-  .tracks { grid-template-columns: 1fr; }
-  .track { padding: 1.5rem; }
-  .track h3 { font-size: 1.1rem; }
-  .track ul li { font-size: 0.85rem; line-height: 1.65; }
-  .track-conclusion { font-size: 1rem; padding: 1.5rem; }
-
-  .team-grid { grid-template-columns: 1fr; }
-  .team-card { padding: 1.5rem; flex-direction: column; gap: 0; }
-  .team-card img { width: 100%; height: 220px; object-fit: cover; object-position: top center; margin-bottom: 1.2rem; flex-shrink: unset; }
-  .team-card h3 { font-size: 1.2rem; }
-  .team-card .role { font-size: 0.7rem; }
-  .team-card p { font-size: 0.85rem; line-height: 1.7; }
+  .team-grid { gap: 1.2rem; }
+  .team-card { padding: 1.8rem; flex-direction: column; gap: 1.4rem; }
+  .team-card img { width: 100%; height: 240px; object-position: top center; }
+  .team-card h3 { font-size: 1.3rem; }
+  .team-card .role { font-size: 0.65rem; }
+  .team-card p { font-size: 0.85rem; }
 
   .partners-grid { grid-template-columns: 1fr; gap: 1rem; }
-  .partner-card { padding: 1.5rem; }
-  .partner-card h3 { font-size: 1rem; }
+  .partner-card { padding: 1.8rem 1.4rem; }
+  .partner-card h3 { font-size: 1.05rem; }
   .partner-card p { font-size: 0.85rem; }
 
-  .contact-section { padding: 4rem 1.5rem; }
-  .contact-section h2 { font-size: 1.8rem; }
+  .contact-section { padding: 5rem 1.5rem; }
+  .contact-section h2 { font-size: 1.7rem; }
   .contact-section p { font-size: 0.9rem; }
+  .contact-link { padding: 0.95rem 2rem; font-size: 0.7rem; }
 
-  footer { padding: 1.5rem; flex-direction: column; gap: 0.5rem; text-align: center; }
+  footer { padding: 1.8rem 1.5rem; flex-direction: column; gap: 0.8rem; text-align: center; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
 }
 </style>
 </head>
 <body>
 
-<nav>
+<div class="bg-glow"></div>
+<div class="grain"></div>
+<div class="scroll-progress" id="scrollProgress"></div>
+
+<nav id="mainNav">
   <a href="#" class="logo">ISKRA</a>
   <ul class="nav-links">
     <li><a href="#challenges" data-i18n="nav_challenges">Challenges</a></li>
@@ -490,14 +747,14 @@ footer p { font-size: 0.75rem; color: var(--cream-dim); letter-spacing: 0.05em; 
     <li><a href="#partners" data-i18n="nav_partners">Partners</a></li>
     <li><a href="#contact" data-i18n="nav_contact">Contact</a></li>
   </ul>
-  <div style="display:flex;align-items:center;gap:0.6rem;">
+  <div style="display:flex;align-items:center;gap:0.7rem;">
     <div class="lang-switcher">
       <button class="lang-btn active" onclick="setLang('en')">EN</button>
       <button class="lang-btn" onclick="setLang('fr')">FR</button>
       <button class="lang-btn" onclick="setLang('pl')">PL</button>
       <button class="lang-btn" onclick="setLang('ua')">UA</button>
     </div>
-    <button class="hamburger" onclick="toggleMenu()" id="hamburger">
+    <button class="hamburger" onclick="toggleMenu()" id="hamburger" aria-label="Menu">
       <span></span><span></span><span></span>
     </button>
   </div>
@@ -511,32 +768,46 @@ footer p { font-size: 0.75rem; color: var(--cream-dim); letter-spacing: 0.05em; 
   <a href="#contact" onclick="toggleMenu()" data-i18n="nav_contact">Contact</a>
 </div>
 
-<div class="hero" style="background:#021f5a;">
-  <img src="logo.png" alt="ISKRA" style="height:clamp(120px,22vw,260px);margin-bottom:3rem;display:block;margin-left:auto;margin-right:auto;">
+<main>
+
+<section class="hero">
+  <img class="hero-logo" src="logo.png" alt="ISKRA">
   <p data-i18n="hero_p">Supporting Ukrainian technology companies in scaling into European and US markets, and enabling European industrial players to access and execute funded reconstruction projects in Ukraine.</p>
   <a href="mailto:contact@iskra-partners.com" class="hero-cta" data-i18n="hero_cta">Get in touch</a>
-  <p style="font-size:0.7rem;letter-spacing:0.18em;color:rgba(245,243,239,0.4);text-transform:uppercase;margin-top:1rem;">Paris · Brussels · Warsaw · Kyiv · New York</p>
-</div>
+  <div class="hero-cities">
+    <span>Paris</span><span class="dot"></span>
+    <span>Brussels</span><span class="dot"></span>
+    <span>Warsaw</span><span class="dot"></span>
+    <span>Kyiv</span><span class="dot"></span>
+    <span>New York</span>
+  </div>
+</section>
 
 <section id="challenges">
-  <p class="section-label" data-i18n="challenges_label">The challenges we address</p>
+  <div class="section-header fade-in">
+    <span class="section-label" data-i18n="challenges_label">The challenges we address</span>
+  </div>
   <div class="challenges-grid">
-    <div class="challenge-block fade-in">
-      <h3 data-i18n="ch1_h3">Ukrainian tech companies face structural barriers when entering Western markets</h3> <p data-i18n="ch1_p">Ukrainian technologies are proven and already deployed in real-world conditions across strategic sectors such as <strong>defense, energy, cyber and critical infrastructure</strong>. The ecosystem now counts more than 2,600 active startups, built global-first by design and optimized for speed, constraints and cost-efficiency. As these companies expand internationally, success depends on aligning strong technologies with <strong>local procurement norms, compliance frameworks and industrial ecosystems</strong>. Entering European and US markets typically means navigating <strong>certification paths, long procurement cycles and fragmented institutional buyers</strong>, while securing the right capital, partners and regulatory pathways for long-term deployment.</p> </div>
-    <div class="challenge-block">
-     <h3 data-i18n="ch2_h3">Ukraine's reconstruction is creating major opportunities for European companies</h3>
+    <div class="challenge-block fade-in stagger-1">
+      <h3 data-i18n="ch1_h3">Ukrainian tech companies face structural barriers when entering Western markets</h3>
+      <p data-i18n="ch1_p">Ukrainian technologies are proven and already deployed in real-world conditions across strategic sectors such as <strong>defense, energy, cyber and critical infrastructure</strong>. The ecosystem now counts more than 2,600 active startups, built global-first by design and optimized for speed, constraints and cost-efficiency. As these companies expand internationally, success depends on aligning strong technologies with <strong>local procurement norms, compliance frameworks and industrial ecosystems</strong>. Entering European and US markets typically means navigating <strong>certification paths, long procurement cycles and fragmented institutional buyers</strong>, while securing the right capital, partners and regulatory pathways for long-term deployment.</p>
+    </div>
+    <div class="challenge-block fade-in stagger-2">
+      <h3 data-i18n="ch2_h3">Ukraine's reconstruction is creating major opportunities for European companies</h3>
       <p data-i18n="ch2_p">Ukraine's reconstruction needs are substantial, with <strong>large-scale financing requirements across critical sectors</strong>. Delivering at this scale requires strong private-sector participation, supported by a <strong>growing set of financial mechanisms</strong> designed to encourage and de-risk engagement. At the same time, the country's operating environment is evolving quickly, driven by rapid innovation, reforms aligned with EU standards and urgent on-the-ground needs. Companies that engage early, with <strong>solid local anchoring and access to public, private and blended finance</strong>, can build strong positioning, develop hard-to-replicate relationships and turn early projects into long-term opportunities.</p>
     </div>
   </div>
-  <div class="challenge-conclusion fade-in fade-in-delay-2">
+  <div class="challenge-conclusion fade-in stagger-3">
     <p data-i18n="conclusion">On both sides, the bottleneck is the same: turning opportunities into structured, bankable and deployable projects. This is the gap ISKRA operates.</p>
   </div>
 </section>
 
 <section id="what-we-do">
-  <p class="section-label" data-i18n="what_label">What we do</p>
+  <div class="section-header fade-in">
+    <span class="section-label" data-i18n="what_label">What we do</span>
+  </div>
   <div class="tracks">
-    <div class="track">
+    <div class="track fade-in stagger-1">
       <h3 data-i18n="track1_h3">For Ukrainian tech companies scaling abroad</h3>
       <ul>
         <li data-i18n="track1_li1"><strong>Structure market entry</strong> by defining priority geographies, target buyers and sequencing regulatory, industrial and commercial steps, including compliance with export control frameworks and dual-use regulations relevant to strategic sectors</li>
@@ -544,7 +815,7 @@ footer p { font-size: 0.75rem; color: var(--cream-dim); letter-spacing: 0.05em; 
         <li data-i18n="track1_li3"><strong>Secure institutional positioning</strong>, build industrial and commercial anchoring, and enable first deployments within EU and US markets</li>
       </ul>
     </div>
-    <div class="track">
+    <div class="track fade-in stagger-2">
       <h3 data-i18n="track2_h3">For European companies entering Ukraine</h3>
       <ul>
         <li data-i18n="track2_li1"><strong>Identify opportunities</strong> on the ground, aligned with Ukraine's reconstruction needs and priorities</li>
@@ -552,33 +823,35 @@ footer p { font-size: 0.75rem; color: var(--cream-dim); letter-spacing: 0.05em; 
         <li data-i18n="track2_li3"><strong>Prepare the technical and financial documentation</strong> required for applying for relevant financial mechanisms and stay engaged through implementation, supporting coordination until projects are effectively delivered</li>
       </ul>
     </div>
-    <div class="track-conclusion">
+    <div class="track-conclusion fade-in stagger-3">
       <span data-i18n="track_conclusion">We provide the structured execution required to move from opportunity to funded project and from strategy to real deployment.</span>
     </div>
   </div>
 </section>
 
 <section id="team">
-  <p class="section-label" data-i18n="team_label">Our team</p>
+  <div class="section-header fade-in">
+    <span class="section-label" data-i18n="team_label">Our team</span>
+  </div>
   <div class="team-grid">
-    <div class="team-card">
-      <img src="valentin.png" alt="Valentin Jedraszyk" style="width:120px;height:150px;object-fit:cover;flex-shrink:0;">
+    <div class="team-card fade-in stagger-1">
+      <img src="valentin.png" alt="Valentin Jedraszyk">
       <div class="team-card-content">
         <h3>Valentin Jedraszyk</h3>
         <p class="role" data-i18n="valentin_role">Founder</p>
         <p data-i18n="valentin_bio">Founder of ISKRA, Valentin brings experience at the intersection of public institutions, industrial policy and international market expansion. At the French Ministry of the Economy, he designed and managed national emergency subsidy programs for French companies affected by the economic consequences of the war in Ukraine and coordinated a Presidential support program for the country's most innovative growth companies. He then led Bpifrance's North American operations in New York, supporting French startups, scale-ups and SMEs expanding into the US and Canadian markets through export finance, strategic positioning and institutional partnerships. He is a graduate of Sciences Po Paris.</p>
       </div>
     </div>
-    <div class="team-card">
-      <img src="sofia.png" alt="Sofia Sapozhnykova" style="width:120px;height:150px;object-fit:cover;flex-shrink:0;">
+    <div class="team-card fade-in stagger-2">
+      <img src="sofia.png" alt="Sofia Sapozhnykova">
       <div class="team-card-content">
         <h3>Sofia Sapozhnykova</h3>
         <p class="role" data-i18n="sofia_role">Partner</p>
         <p data-i18n="sofia_bio">Sofia advises governments, development partners, and private sector actors on energy policy and the energy transition across multiple regions, as well as on Ukraine's reconstruction and investment mobilization. She supports project preparation at the public-private interface, combining stakeholder coordination with the alignment of regulatory and financing pathways (public, private, and blended). She has worked on projects funded by USAID, GIZ, IKI, and the French government, as well as within the Ukrainian public sector, and is a graduate of Sciences Po Paris.</p>
       </div>
     </div>
-    <div class="team-card">
-      <img src="eliza.jpg" alt="Eliza Kurazova" style="width:120px;height:150px;object-fit:cover;flex-shrink:0;">
+    <div class="team-card fade-in stagger-3">
+      <img src="eliza.jpg" alt="Eliza Kurazova">
       <div class="team-card-content">
         <h3>Eliza Kurazova</h3>
         <p class="role" data-i18n="eliza_role">Partner</p>
@@ -589,28 +862,30 @@ footer p { font-size: 0.75rem; color: var(--cream-dim); letter-spacing: 0.05em; 
 </section>
 
 <section id="partners">
-  <p class="section-label" data-i18n="partners_label">Our partners</p>
+  <div class="section-header fade-in">
+    <span class="section-label" data-i18n="partners_label">Our partners</span>
+  </div>
   <div class="partners-grid">
-    <div class="partner-card">
-      <img src="ipoffice.png" alt="UANIPIO" style="height:60px;object-fit:contain;margin-bottom:1rem;">
+    <div class="partner-card fade-in stagger-1">
+      <img src="ipoffice.png" alt="UANIPIO">
       <h3>Ukrainian IP Office (UANIPIO)</h3>
       <p class="partner-type" data-i18n="ip_type">Institutional Partner</p>
       <p data-i18n="ip_p">The national authority responsible for intellectual property protection and innovation structuration in Ukraine. The partnership is reflected in the Lab2Market AgroTech Acceleration Program, supporting early-stage researchers in transitioning from scientific results to market-ready projects.</p>
     </div>
-    <div class="partner-card">
-      <img src="uatech.png" alt="UAtech" style="height:60px;object-fit:contain;margin-bottom:1rem;">
+    <div class="partner-card fade-in stagger-2">
+      <img src="uatech.png" alt="UAtech">
       <h3>UAtech</h3>
       <p class="partner-type" data-i18n="ua_type">Strategic Ecosystem Partner</p>
       <p data-i18n="ua_p">A global platform connecting Ukrainian founders with international capital, partners and ecosystems through curated events and high-quality deal flow. Through initiatives such as Venture Night, UAtech bridges Ukrainian innovation and global markets.</p>
     </div>
-    <div class="partner-card">
-      <img src="appleton.png" alt="Appleton Luff" style="height:60px;object-fit:contain;margin-bottom:1rem;">
+    <div class="partner-card fade-in stagger-3">
+      <img src="appleton.png" alt="Appleton Luff">
       <h3>Appleton Luff</h3>
       <p class="partner-type" data-i18n="app_type">International Legal Counsel</p>
       <p data-i18n="app_p">An international law firm specializing in international trade, export controls, sanctions and regulatory compliance. With offices across Europe and the United States, the firm advises companies in regulated and strategic sectors including defense and dual-use environments.</p>
     </div>
-    <div class="partner-card">
-      <img src="rasons.png" alt="Rasons Legal" style="height:60px;object-fit:contain;margin-bottom:1rem;">
+    <div class="partner-card fade-in stagger-4">
+      <img src="rasons.png" alt="Rasons Legal">
       <h3>Rasons Legal</h3>
       <p class="partner-type" data-i18n="ras_type">Ukrainian Legal Counsel</p>
       <p data-i18n="ras_p">A Ukraine-based law firm specialized in corporate law, public sector projects and regulatory structuring. The firm supports international companies and investors operating in Ukraine, particularly in complex environments involving public stakeholders and reconstruction initiatives.</p>
@@ -619,39 +894,44 @@ footer p { font-size: 0.75rem; color: var(--cream-dim); letter-spacing: 0.05em; 
 </section>
 
 <section id="contact" class="contact-section">
-  <h2 data-i18n="contact_h2">Let's work together</h2>
-  <p data-i18n="contact_p">If you are a Ukrainian technology company preparing to scale into European and US markets, or a European industrial player looking to access and execute funded projects in Ukraine, get in touch.</p>
-  <a href="mailto:contact@iskra-partners.com" class="contact-link" data-i18n="contact_btn">Get in touch</a>
+  <h2 data-i18n="contact_h2" class="fade-in">Let's work together</h2>
+  <p data-i18n="contact_p" class="fade-in stagger-1">If you are a Ukrainian technology company preparing to scale into European and US markets, or a European industrial player looking to access and execute funded projects in Ukraine, get in touch.</p>
+  <a href="mailto:contact@iskra-partners.com" class="contact-link fade-in stagger-2" data-i18n="contact_btn">Get in touch</a>
 </section>
+
+</main>
 
 <footer>
   <p data-i18n="footer">© ISKRA 2026. All rights reserved.</p>
-  <p><a href="#legal" onclick="document.getElementById('legal-modal').style.display='flex'" style="color:rgba(245,243,239,0.4);font-size:0.75rem;text-decoration:none;letter-spacing:0.05em;" data-i18n="legal_link">Legal notice</a></p>
+  <p><a href="#legal" onclick="document.getElementById('legal-modal').style.display='flex'" style="font-size:0.75rem;letter-spacing:0.05em;" data-i18n="legal_link">Legal notice</a></p>
 </footer>
-<div id="legal-modal" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(2,31,90,0.97);z-index:200;overflow-y:auto;padding:4rem 2rem;">
+
+<div id="legal-modal" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(1,19,58,0.97);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);z-index:200;overflow-y:auto;padding:4rem 2rem;">
   <div style="max-width:700px;margin:0 auto;">
-    <button onclick="document.getElementById('legal-modal').style.display='none'" style="background:none;border:1px solid rgba(245,243,239,0.2);color:#f5f3ef;padding:0.5rem 1.5rem;cursor:pointer;font-size:0.8rem;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:3rem;" data-i18n="legal_close">Close</button>
-    <h2 style="font-family:'Italiana',serif;font-size:2rem;font-weight:300;color:#f5f3ef;margin-bottom:2rem;" data-i18n="legal_title">Legal notice</h2>
-    <div style="font-size:0.9rem;color:rgba(245,243,239,0.7);line-height:1.8;display:flex;flex-direction:column;gap:1.5rem;">
-      <div><p style="color:#f5f3ef;font-weight:500;margin-bottom:0.5rem;" data-i18n="legal_pub_title">Publisher</p><p>Valentin Jedraszyk — ISKRA<br>Paris, France<br><a href="mailto:contact@iskra-partners.com" style="color:rgba(245,243,239,0.7);">contact@iskra-partners.com</a></p></div>
-      <div><p style="color:#f5f3ef;font-weight:500;margin-bottom:0.5rem;" data-i18n="legal_host_title">Hosting</p><p>GitHub Pages — GitHub, Inc.<br>88 Colin P Kelly Jr St<br>San Francisco, CA 94107, United States<br>pages.github.com</p></div>
-      <div><p style="color:#f5f3ef;font-weight:500;margin-bottom:0.5rem;" data-i18n="legal_ip_title">Intellectual property</p><p data-i18n="legal_ip_p">All content on this site (texts, images, logos) is the exclusive property of ISKRA. Any reproduction, even partial, is prohibited without prior authorization.</p></div>
-      <div><p style="color:#f5f3ef;font-weight:500;margin-bottom:0.5rem;" data-i18n="legal_data_title">Personal data</p><p data-i18n="legal_data_p">This site does not collect any personal data. No tracking cookies are used. Email exchanges are treated confidentially and are not shared with third parties.</p></div>
+    <button onclick="document.getElementById('legal-modal').style.display='none'" style="background:none;border:1px solid var(--cream-faint);color:#f5f3ef;padding:0.55rem 1.6rem;cursor:pointer;font-size:0.75rem;letter-spacing:0.18em;text-transform:uppercase;margin-bottom:3rem;font-family:var(--sans);" data-i18n="legal_close">Close</button>
+    <h2 style="font-family:'Italiana',serif;font-size:2.2rem;font-weight:300;color:#f5f3ef;margin-bottom:2rem;font-style:italic;" data-i18n="legal_title">Legal notice</h2>
+    <div style="font-size:0.9rem;color:rgba(245,243,239,0.7);line-height:1.85;display:flex;flex-direction:column;gap:1.6rem;font-weight:300;">
+      <div><p style="color:#f5f3ef;font-weight:500;margin-bottom:0.5rem;letter-spacing:0.05em;" data-i18n="legal_pub_title">Publisher</p><p>Valentin Jedraszyk — ISKRA<br>Paris, France<br><a href="mailto:contact@iskra-partners.com" style="color:rgba(245,243,239,0.7);">contact@iskra-partners.com</a></p></div>
+      <div><p style="color:#f5f3ef;font-weight:500;margin-bottom:0.5rem;letter-spacing:0.05em;" data-i18n="legal_host_title">Hosting</p><p>GitHub Pages — GitHub, Inc.<br>88 Colin P Kelly Jr St<br>San Francisco, CA 94107, United States<br>pages.github.com</p></div>
+      <div><p style="color:#f5f3ef;font-weight:500;margin-bottom:0.5rem;letter-spacing:0.05em;" data-i18n="legal_ip_title">Intellectual property</p><p data-i18n="legal_ip_p">All content on this site (texts, images, logos) is the exclusive property of ISKRA. Any reproduction, even partial, is prohibited without prior authorization.</p></div>
+      <div><p style="color:#f5f3ef;font-weight:500;margin-bottom:0.5rem;letter-spacing:0.05em;" data-i18n="legal_data_title">Personal data</p><p data-i18n="legal_data_p">This site does not collect any personal data. No tracking cookies are used. Email exchanges are treated confidentially and are not shared with third parties.</p></div>
     </div>
   </div>
 </div>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script>
 const translations = {
   en: {
     nav_challenges:"Challenges",nav_what:"What we do",nav_team:"Team",nav_partners:"Partners",nav_contact:"Contact",
+    hero_eyebrow:"Strategic Advisory",
+    hero_tagline:"From opportunity to deployment — on both sides of the border.",
     hero_cta:"Get in touch",
     hero_p:"Supporting Ukrainian and Central & Eastern European technology companies in scaling into European and US markets, and enabling European industrial players to access and execute funded reconstruction projects in Ukraine.",
     challenges_label:"The challenges we address",
     ch1_h3:"Ukrainian tech companies face structural barriers when entering Western markets",
     ch1_p:"Ukrainian technologies are proven and already deployed in real-world conditions across strategic sectors such as <strong>defense, energy, cyber and critical infrastructure</strong>. The ecosystem now counts more than 2,600 active startups, built global-first by design and optimized for speed, constraints and cost-efficiency. As these companies expand internationally, success depends on aligning strong technologies with <strong>local procurement norms, compliance frameworks and industrial ecosystems</strong>. Entering European and US markets typically means navigating <strong>certification paths, long procurement cycles and fragmented institutional buyers</strong>, while securing the right capital, partners and regulatory pathways for long-term deployment.",
-    ch2_h3:"Ukraine’s reconstruction is creating major opportunities for European companies",
-    ch2_p:"Ukraine’s reconstruction needs are substantial, with <strong>large-scale financing requirements across critical sectors</strong>. Delivering at this scale requires strong private-sector participation, supported by a <strong>growing set of financial mechanisms</strong> designed to encourage and de-risk engagement. At the same time, the country’s operating environment is evolving quickly, driven by rapid innovation, reforms aligned with EU standards and urgent on-the-ground needs. Companies that engage early, with <strong>solid local anchoring and access to public, private and blended finance</strong>, can build strong positioning, develop hard-to-replicate relationships and turn early projects into long-term opportunities.",
+    ch2_h3:"Ukraine's reconstruction is creating major opportunities for European companies",
+    ch2_p:"Ukraine's reconstruction needs are substantial, with <strong>large-scale financing requirements across critical sectors</strong>. Delivering at this scale requires strong private-sector participation, supported by a <strong>growing set of financial mechanisms</strong> designed to encourage and de-risk engagement. At the same time, the country's operating environment is evolving quickly, driven by rapid innovation, reforms aligned with EU standards and urgent on-the-ground needs. Companies that engage early, with <strong>solid local anchoring and access to public, private and blended finance</strong>, can build strong positioning, develop hard-to-replicate relationships and turn early projects into long-term opportunities.",
     conclusion:"On both sides, the bottleneck is the same: turning opportunities into structured, financeable and deployable projects. This is the gap ISKRA operates.",
     what_label:"What we do",
     track1_h3:"For Ukrainian and CEE tech companies scaling abroad",
@@ -659,69 +939,73 @@ const translations = {
     track1_li2:"<strong>Design and run financing strategies</strong> combining private capital, public instruments and strategic partnerships, including access to European and US institutional mechanisms supporting technology deployment",
     track1_li3:"<strong>Secure institutional positioning</strong>, build industrial and commercial anchoring, and enable first deployments within EU and US markets",
     track2_h3:"For European companies entering Ukraine",
-    track2_li1:"<strong>Identify opportunities</strong> on the ground, aligned with Ukraine’s reconstruction needs and priorities",
+    track2_li1:"<strong>Identify opportunities</strong> on the ground, aligned with Ukraine's reconstruction needs and priorities",
     track2_li2:"<strong>Structure projects</strong> (pilot deployments, feasibility studies, reconstruction projects implementation) by defining scope, delivery partners, and a funding approach (including public, private and blended options such as risk-sharing instruments, export credit solutions and grant-backed pilots) across relevant sectors",
     track2_li3:"<strong>Prepare the technical and financial documentation</strong> required for applying for relevant financial mechanisms and stay engaged through implementation, supporting coordination until projects are effectively delivered",
     track_conclusion:"We provide the structured execution required to move from opportunity to funded project and from strategy to real deployment.",
     team_label:"Our team",valentin_role:"Founder",sofia_role:"Partner",eliza_role:"Partner",
-    valentin_bio:"Founder of ISKRA, Valentin brings experience at the intersection of public institutions, industrial policy and international market expansion. At the French Ministry of the Economy, he designed and managed national emergency subsidy programs for French companies affected by the economic consequences of the war in Ukraine and coordinated a Presidential support program for the country’s most innovative growth companies. He then led Bpifrance’s North American operations in New York, supporting French startups, scale-ups and SMEs expanding into the US and Canadian markets through export finance, strategic positioning and institutional partnerships. He is a graduate of Sciences Po Paris.",
-    sofia_bio:"Sofia advises governments, development partners, and private sector actors on energy policy and the energy transition across multiple regions, as well as on Ukraine’s reconstruction and investment mobilization. She supports project preparation at the public-private interface, combining stakeholder coordination with the alignment of regulatory and financing pathways (public, private, and blended). She has worked on projects funded by USAID, GIZ, IKI, and the French government, as well as within the Ukrainian public sector, and is a graduate of Sciences Po Paris.",
+    valentin_bio:"Founder of ISKRA, Valentin brings experience at the intersection of public institutions, industrial policy and international market expansion. At the French Ministry of the Economy, he designed and managed national emergency subsidy programs for French companies affected by the economic consequences of the war in Ukraine and coordinated a Presidential support program for the country's most innovative growth companies. He then led Bpifrance's North American operations in New York, supporting French startups, scale-ups and SMEs expanding into the US and Canadian markets through export finance, strategic positioning and institutional partnerships. He is a graduate of Sciences Po Paris.",
+    sofia_bio:"Sofia advises governments, development partners, and private sector actors on energy policy and the energy transition across multiple regions, as well as on Ukraine's reconstruction and investment mobilization. She supports project preparation at the public-private interface, combining stakeholder coordination with the alignment of regulatory and financing pathways (public, private, and blended). She has worked on projects funded by USAID, GIZ, IKI, and the French government, as well as within the Ukrainian public sector, and is a graduate of Sciences Po Paris.",
     eliza_bio:"Eliza has a cross-disciplinary background spanning corporate law, venture capital exposure and technology environments. She has worked in legal roles at Fives and Voodoo.io, and gained exposure to venture dynamics through the Paris Business Angels. Educated at Panthéon-Assas University (LLB) and 42 (Computer Science).",
     partners_label:"Our partners",
     ip_type:"Institutional Partner",ip_p:"The national authority responsible for intellectual property protection and innovation structuration in Ukraine. The partnership is reflected in the Lab2Market AgroTech Acceleration Program, supporting early-stage researchers in transitioning from scientific results to market-ready projects.",
     ua_type:"Strategic Ecosystem Partner",ua_p:"A global platform connecting Ukrainian founders with international capital, partners and ecosystems through curated events and high-quality deal flow. Through initiatives such as Venture Night, UAtech bridges Ukrainian innovation and global markets.",
     app_type:"International Legal Counsel",app_p:"An international law firm specializing in international trade, export controls, sanctions and regulatory compliance. With offices across Europe and the United States, the firm advises companies in regulated and strategic sectors including defense and dual-use environments.",
     ras_type:"Ukrainian Legal Counsel",ras_p:"A Ukraine-based law firm specialized in corporate law, public sector projects and regulatory structuring. The firm supports international companies and investors operating in Ukraine, particularly in complex environments involving public stakeholders and reconstruction initiatives.",
-    contact_h2:"Let’s work together",
+    contact_h2:"Let's work together",
     contact_p:"If you are a Ukrainian or Central & Eastern European technology company preparing to scale into European and US markets, or a European industrial player looking to access and execute funded projects in Ukraine, get in touch.",
     contact_btn:"Get in touch",
     footer:"© ISKRA 2026. All rights reserved.",legal_link:"Legal notice",legal_close:"Close",legal_title:"Legal notice",legal_pub_title:"Publisher",legal_host_title:"Hosting",legal_ip_title:"Intellectual property",legal_ip_p:"All content on this site (texts, images, logos) is the exclusive property of ISKRA. Any reproduction, even partial, is prohibited without prior authorization.",legal_data_title:"Personal data",legal_data_p:"This site does not collect any personal data. No tracking cookies are used. Email exchanges are treated confidentially and are not shared with third parties."
   },
   fr: {
     nav_challenges:"Enjeux",nav_what:"Notre approche",nav_team:"Équipe",nav_partners:"Partenaires",nav_contact:"Contact",
+    hero_eyebrow:"Conseil stratégique",
+    hero_tagline:"De l'opportunité au déploiement — des deux côtés de la frontière.",
     hero_cta:"Nous écrire",
     hero_p:"Nous soutenons les entreprises technologiques ukrainiennes dans leur développement en Europe et aux États-Unis, et accompagnons les industriels européens dans leurs projets de reconstruction en Ukraine.",
     challenges_label:"Les enjeux que nous adressons",
-    ch1_h3:"S’imposer sur les marchés occidentaux reste un obstacle structurel pour les entreprises tech ukrainiennes",
-    ch1_p:"Les technologies ukrainiennes sont éprouvées, déployées en conditions réelles dans des secteurs stratégiques comme la <strong>défense, l’énergie, la cybersécurité ou les infrastructures critiques</strong>. L’écosystème compte plus de 2 600 startups actives, pensées d’emblée pour l’international et rodées aux contraintes du terrain. Mais le passage à l’échelle internationale suppose de se conformer à des <strong>normes d’achat, des cadres réglementaires et des écosystèmes industriels</strong> spécifiques. Entrer sur les marchés européens et américains implique de traverser des <strong>processus de certification complexes, des cycles d’achat longs et des acheteurs institutionnels fragmentés</strong>, tout en mobilisant les bons capitaux, partenaires et voies réglementaires.",
-    ch2_h3:"La reconstruction de l’Ukraine ouvre un marché considérable pour les entreprises européennes",
-    ch2_p:"L’ampleur des besoins est considérable, avec des <strong>exigences de financement massives dans des secteurs critiques</strong>. Y répondre suppose une participation forte du secteur privé, que facilitent des <strong>mécanismes financiers spécifiquement conçus</strong> pour encourager et sécuriser cet engagement. Le contexte évolue vite : innovations rapides, réformes d’alignement européen, besoins urgents sur le terrain. Les entreprises qui s’engagent tôt, avec un <strong>ancrage local solide et un accès à des financements publics, privés ou mixtes</strong>, bénéficient d’un avantage de première entrée, construisent des relations durables et transforment leurs premiers projets en opportunités pérennes.",
-    conclusion:"Des deux côtés, le verrou est le même : transformer des opportunités en projets structurés, finançables et opérationnels. C’est là qu’ISKRA intervient.",
+    ch1_h3:"S'imposer sur les marchés occidentaux reste un obstacle structurel pour les entreprises tech ukrainiennes",
+    ch1_p:"Les technologies ukrainiennes sont éprouvées, déployées en conditions réelles dans des secteurs stratégiques comme la <strong>défense, l'énergie, la cybersécurité ou les infrastructures critiques</strong>. L'écosystème compte plus de 2 600 startups actives, pensées d'emblée pour l'international et rodées aux contraintes du terrain. Mais le passage à l'échelle internationale suppose de se conformer à des <strong>normes d'achat, des cadres réglementaires et des écosystèmes industriels</strong> spécifiques. Entrer sur les marchés européens et américains implique de traverser des <strong>processus de certification complexes, des cycles d'achat longs et des acheteurs institutionnels fragmentés</strong>, tout en mobilisant les bons capitaux, partenaires et voies réglementaires.",
+    ch2_h3:"La reconstruction de l'Ukraine ouvre un marché considérable pour les entreprises européennes",
+    ch2_p:"L'ampleur des besoins est considérable, avec des <strong>exigences de financement massives dans des secteurs critiques</strong>. Y répondre suppose une participation forte du secteur privé, que facilitent des <strong>mécanismes financiers spécifiquement conçus</strong> pour encourager et sécuriser cet engagement. Le contexte évolue vite : innovations rapides, réformes d'alignement européen, besoins urgents sur le terrain. Les entreprises qui s'engagent tôt, avec un <strong>ancrage local solide et un accès à des financements publics, privés ou mixtes</strong>, bénéficient d'un avantage de première entrée, construisent des relations durables et transforment leurs premiers projets en opportunités pérennes.",
+    conclusion:"Des deux côtés, le verrou est le même : transformer des opportunités en projets structurés, finançables et opérationnels. C'est là qu'ISKRA intervient.",
     what_label:"Notre approche",
-    track1_h3:"Pour les entreprises tech ukrainiennes qui se développent à l’international",
-    track1_li1:"<strong>Structurer l’entrée sur le marché :</strong> géographies prioritaires, acheteurs cibles, séquence des étapes réglementaires, industrielles et commerciales, y compris la conformité aux contrôles à l’exportation et aux réglementations double usage",
-    track1_li2:"<strong>Concevoir et piloter la stratégie de financement :</strong> combinaison de capitaux privés, instruments publics et partenariats stratégiques, accès aux dispositifs institutionnels européens et américains",
+    track1_h3:"Pour les entreprises tech ukrainiennes qui se développent à l'international",
+    track1_li1:"<strong>Structurer l'entrée sur le marché :</strong> géographies prioritaires, acheteurs cibles, séquence des étapes réglementaires, industrielles et commerciales, y compris la conformité aux contrôles à l'exportation et aux réglementations double usage",
+    track1_li2:"<strong>Concevoir et piloter la stratégie de financement :</strong> combinaison de capitaux privés, instruments publics et partenariats stratégiques, accès aux dispositifs institutionnels européens et américains",
     track1_li3:"<strong>Consolider le positionnement institutionnel,</strong> construire les ancrages industriels et commerciaux, et ouvrir les premières portes sur les marchés européen et américain",
-    track2_h3:"Pour les entreprises européennes qui s’engagent en Ukraine",
+    track2_h3:"Pour les entreprises européennes qui s'engagent en Ukraine",
     track2_li1:"<strong>Identifier des opportunités concrètes</strong> sur le terrain, en phase avec les besoins et les priorités de reconstruction",
-    track2_li2:"<strong>Monter les projets :</strong> périmètre, partenaires de livraison, approche de financement : options publiques, privées ou mixtes (partage de risques, crédit export, pilotes subventionnés)",
-    track2_li3:"<strong>Préparer les dossiers techniques et financiers</strong> pour les mécanismes de financement pertinents et rester engagé jusqu’à la livraison effective du projet",
-    track_conclusion:"Nous assurons l’exécution opérationnelle qui permet de passer de l’opportunité au projet financé, et de la stratégie au déploiement concret.",
+    track2_li2:"<strong>Monter les projets :</strong> périmètre, partenaires de livraison, approche de financement : options publiques, privées ou mixtes (partage de risques, crédit export, pilotes subventionnés)",
+    track2_li3:"<strong>Préparer les dossiers techniques et financiers</strong> pour les mécanismes de financement pertinents et rester engagé jusqu'à la livraison effective du projet",
+    track_conclusion:"Nous assurons l'exécution opérationnelle qui permet de passer de l'opportunité au projet financé, et de la stratégie au déploiement concret.",
     team_label:"Notre équipe",valentin_role:"Fondateur",sofia_role:"Associée",eliza_role:"Associée",
-    valentin_bio:"Fondateur d’ISKRA, Valentin a un parcours croise les institutions publiques, la politique industrielle et le développement international. Au ministère de l’Économie, il a piloté des dispositifs d’aide d’urgence pour les entreprises françaises touchées par les conséquences économiques de la guerre en Ukraine, ainsi qu’un programme présidentiel d’accompagnement des entreprises à forte croissance. Il a ensuite dirigé le bureau Bpifrance à New York, où il a soutenu le développement nord-américain de startups, scale-ups et PME françaises. Diplômé de Sciences Po Paris.",
-    sofia_bio:"Spécialiste de l’énergie et du financement du développement, Sofia conseille des gouvernements, des institutions de développement et des acteurs privés sur les politiques énergétiques, la transition énergétique et la mobilisation des investissements pour la reconstruction de l’Ukraine. Elle intervient à l’interface public-privé, en articulant coordination des parties prenantes et structuration des voies de financement : publiques, privées et mixtes. Elle a travaillé sur des projets financés par l’USAID, la GIZ, l’IKI et le gouvernement français, ainsi qu’au sein du secteur public ukrainien. Diplômée de Sciences Po Paris.",
-    eliza_bio:"Spécialiste du droit et des environnements technologiques, Eliza a développé une expertise à la croisée du droit des affaires, des environnements technologiques et du capital-risque. Elle a exercé des fonctions juridiques chez Fives et Voodoo.io, et s’est familiarisée avec la dynamique des investisseurs via les Paris Business Angels. Diplômée de l’Université Panthéon-Assas (droit) et de l’école 42 (informatique).",
+    valentin_bio:"Fondateur d'ISKRA, Valentin a un parcours croise les institutions publiques, la politique industrielle et le développement international. Au ministère de l'Économie, il a piloté des dispositifs d'aide d'urgence pour les entreprises françaises touchées par les conséquences économiques de la guerre en Ukraine, ainsi qu'un programme présidentiel d'accompagnement des entreprises à forte croissance. Il a ensuite dirigé le bureau Bpifrance à New York, où il a soutenu le développement nord-américain de startups, scale-ups et PME françaises. Diplômé de Sciences Po Paris.",
+    sofia_bio:"Spécialiste de l'énergie et du financement du développement, Sofia conseille des gouvernements, des institutions de développement et des acteurs privés sur les politiques énergétiques, la transition énergétique et la mobilisation des investissements pour la reconstruction de l'Ukraine. Elle intervient à l'interface public-privé, en articulant coordination des parties prenantes et structuration des voies de financement : publiques, privées et mixtes. Elle a travaillé sur des projets financés par l'USAID, la GIZ, l'IKI et le gouvernement français, ainsi qu'au sein du secteur public ukrainien. Diplômée de Sciences Po Paris.",
+    eliza_bio:"Spécialiste du droit et des environnements technologiques, Eliza a développé une expertise à la croisée du droit des affaires, des environnements technologiques et du capital-risque. Elle a exercé des fonctions juridiques chez Fives et Voodoo.io, et s'est familiarisée avec la dynamique des investisseurs via les Paris Business Angels. Diplômée de l'Université Panthéon-Assas (droit) et de l'école 42 (informatique).",
     partners_label:"Nos partenaires",
     ip_type:"Partenaire institutionnel",
-    ip_p:"Autorité nationale ukrainienne chargée de la propriété intellectuelle et de l’innovation. Notre collaboration se traduit notamment par le programme Lab2Market AgroTech, qui accompagne des chercheurs dans la valorisation commerciale de leurs travaux.",
+    ip_p:"Autorité nationale ukrainienne chargée de la propriété intellectuelle et de l'innovation. Notre collaboration se traduit notamment par le programme Lab2Market AgroTech, qui accompagne des chercheurs dans la valorisation commerciale de leurs travaux.",
     ua_type:"Partenaire écosystème",
-    ua_p:"Plateforme mondiale qui met en relation les fondateurs ukrainiens avec des capitaux et des partenaires internationaux, via des événements curatés et un dealflow de qualité. À travers des initiatives comme Venture Night, UAtech construit le pont entre l’innovation ukrainienne et les marchés mondiaux.",
+    ua_p:"Plateforme mondiale qui met en relation les fondateurs ukrainiens avec des capitaux et des partenaires internationaux, via des événements curatés et un dealflow de qualité. À travers des initiatives comme Venture Night, UAtech construit le pont entre l'innovation ukrainienne et les marchés mondiaux.",
     app_type:"Conseil juridique international",
-    app_p:"Cabinet d’avocats international spécialisé dans le commerce international, le contrôle des exportations, les sanctions et la conformité réglementaire. Présent en Europe et aux États-Unis, Appleton Luff conseille des entreprises dans des secteurs stratégiques et réglementés, dont la défense et le double usage.",
+    app_p:"Cabinet d'avocats international spécialisé dans le commerce international, le contrôle des exportations, les sanctions et la conformité réglementaire. Présent en Europe et aux États-Unis, Appleton Luff conseille des entreprises dans des secteurs stratégiques et réglementés, dont la défense et le double usage.",
     ras_type:"Conseil juridique local",
     ras_p:"Cabinet ukrainien spécialisé en droit des sociétés, projets publics et structuration réglementaire. Rasons Legal accompagne les entreprises et investisseurs internationaux opérant en Ukraine, notamment dans des contextes impliquant des parties prenantes publiques et des initiatives de reconstruction.",
     contact_h2:"Travaillons ensemble",
-    contact_p:"Vous êtes une entreprise tech ukrainienne en phase d’internationalisation, ou un industriel européen souhaitant s’engager en Ukraine ? Nous serions ravis d’en discuter.",
+    contact_p:"Vous êtes une entreprise tech ukrainienne en phase d'internationalisation, ou un industriel européen souhaitant s'engager en Ukraine ? Nous serions ravis d'en discuter.",
     contact_btn:"Nous écrire",
     footer:"© ISKRA 2026. Tous droits réservés.",legal_link:"Mentions légales",legal_close:"Fermer",legal_title:"Mentions légales",legal_pub_title:"Éditeur",legal_host_title:"Hébergement",legal_ip_title:"Propriété intellectuelle",legal_ip_p:"L'ensemble du contenu de ce site (textes, images, logos) est la propriété exclusive d'ISKRA. Toute reproduction, même partielle, est interdite sans autorisation préalable.",legal_data_title:"Données personnelles",legal_data_p:"Ce site ne collecte aucune donnée personnelle. Aucun cookie de traçage n'est utilisé. Les échanges par email sont traités de manière confidentielle et ne sont pas transmis à des tiers."
   },
   pl: {
     nav_challenges:"Wyzwania",nav_what:"Co robimy",nav_team:"Zespół",nav_partners:"Partnerzy",nav_contact:"Kontakt",
+    hero_eyebrow:"Doradztwo strategiczne",
+    hero_tagline:"Od szansy do wdrożenia — po obu stronach granicy.",
     hero_cta:"Napisz do nas",
     hero_p:"Wspieramy ukraińskie firmy technologiczne w ekspansji na rynki europejskie i amerykańskie oraz pomagamy europejskim graczom przemysłowym realizować finansowane projekty odbudowy Ukrainy.",
     challenges_label:"Wyzwania, którym stawiamy czoła",
     ch1_h3:"Ukraińskie firmy technologiczne napotykają bariery strukturalne przy wejściu na rynki zachodnie",
-    ch1_p:"Ukraińskie technologie są sprawdzone i już wdrożone w rzeczywistych warunkach w strategicznych sektorach, takich jak <strong>obronność, energetyka, cyberbezpieczeństwo i infrastruktura krytyczna</strong>. Ekosystem liczy obecnie ponad 2 600 aktywnych startupów, zbudowanych z myślą o rynkach globalnych i zoptymalizowanych pod kątem szybkości, ograniczeń i opłacalności. Wraz z międzynarodową ekspansją sukces zależy od dopasowania technologii do <strong>lokalnych norm zakupowych, wymogów zgodności i ekosystemów przemysłowych</strong>. Wejście na rynki europejskie i amerykańskie oznacza zwykle nawigowanie przez <strong>skomplikowane ścieżki certyfikacji, długie cykle przetargów i rozdrobnione grono nabywców instytucjonalnych</strong>, przy jednoczesnym pozyskiwaniu właściwego kapitału, partnerów i ścieżek regulacyjnych.",
+    ch1_p:"Ukraińskie technologie są sprawdzone i już wdrożone w rzeczywistych warunkach w strategicznych sektorach, takich jak <strong>obronność, energetyka, cyberbezpieczeństwo i infrastruktura krytyczna</strong>. Ekosystem liczy obecnie ponad 2 600 aktywnych startupów, zbudowanych z myślą o rynkach globalnych i zoptymalizowanych pod kątem szybkości, ograniczeń i opłacalności. Wraz z międzynarodową ekspansją sukces zależy od dopasowania technologii do <strong>lokalnych norm zakupowych, wymogów zgodności i ekosystemów przemysłowych</strong>. Wejście na rynki europejskie i amerykańskie oznacza zwykle nawigowanie przez <strong>skomplikowane ścieżki certyfikacji, długie cykle przetargów i rozdrobnione grono nabywców instytucjonalnych</strong>, przy jednoczesnym pozyskiwaniu właściwego kapitału, partnerów i ścieżek regulacyjnych.",
     ch2_h3:"Odbudowa Ukrainy stwarza duże możliwości dla europejskich firm",
     ch2_p:"Potrzeby odbudowy Ukrainy są znaczne, a <strong>zapotrzebowanie na finansowanie w kluczowych sektorach</strong> jest ogromne. Realizacja na taką skalę wymaga silnego zaangażowania sektora prywatnego, wspieranego przez <strong>rosnący zestaw instrumentów finansowych</strong> mających zachęcać do inwestycji i ograniczać ryzyko. Jednocześnie sytuacja operacyjna w kraju zmienia się dynamicznie. Firmy, które zaangażują się wcześnie, z <strong>silnym zakorzenieniem lokalnym i dostępem do finansowania publicznego, prywatnego i mieszanego</strong>, mogą zbudować silną pozycję i przekształcić pierwsze projekty w długoterminowe możliwości.",
     conclusion:"Po obu stronach wąskim gardłem jest to samo: przekształcenie szans w ustrukturyzowane, możliwe do sfinansowania i wdrożenia projekty. W tym miejscu działa ISKRA.",
@@ -743,7 +1027,7 @@ const translations = {
     ip_type:"Partner instytucjonalny",
     ip_p:"Krajowy organ odpowiedzialny za ochronę własności intelektualnej i strukturyzację innowacji na Ukrainie. Partnerstwo odzwierciedla się w programie akceleracyjnym Lab2Market AgroTech, wspierającym badaczy na wczesnym etapie w przechodzeniu od wyników naukowych do projektów gotowych na rynek.",
     ua_type:"Strategiczny partner ekosystemowy",
-    ua_p:"Globalna platforma łącząca ukraińskich założcieli z międzynarodowym kapitałem, partnerami i ekosystemami poprzez kuratorowane wydarzenia i wysokiej jakości przepływ transakcji. Poprzez inicjatywy takie jak Venture Night, UAtech buduje mosty między ukraińską innowacją a rynkami globalnymi.",
+    ua_p:"Globalna platforma łącząca ukraińskich założycieli z międzynarodowym kapitałem, partnerami i ekosystemami poprzez kuratorowane wydarzenia i wysokiej jakości przepływ transakcji. Poprzez inicjatywy takie jak Venture Night, UAtech buduje mosty między ukraińską innowacją a rynkami globalnymi.",
     app_type:"Międzynarodowy doradca prawny",
     app_p:"Międzynarodowa kancelaria prawna specjalizująca się w handlu międzynarodowym, kontroli eksportu, sankcjach i zgodności regulacyjnej. Z biurami w Europie i Stanach Zjednoczonych firma doradza przedsiębiorstwom działającym w regulowanych i strategicznych sektorach, w tym w zakresie obronności i podwójnego zastosowania.",
     ras_type:"Lokalny doradca prawny",
@@ -755,11 +1039,13 @@ const translations = {
   },
   ua: {
     nav_challenges:"Виклики",nav_what:"Наш підхід",nav_team:"Команда",nav_partners:"Партнери",nav_contact:"Контакт",
+    hero_eyebrow:"Стратегічний консалтинг",
+    hero_tagline:"Від можливості до реалізації — по обидва боки кордону.",
     hero_cta:"Написати нам",
     hero_p:"Ми допомагаємо українським та центральноєвропейським технологічним компаніям вийти на ринки ЄС і США, а європейським промисловим гравцям взяти участь у фінансованих проєктах з відбудови України.",
     challenges_label:"Виклики, які ми вирішуємо",
-    ch1_h3:"Українські техкомпанії стикаються зі структурними бар’єрами при виході на західні ринки",
-    ch1_p:"Українські технології вже працюють в реальних умовах, у <strong>обороні, енергетиці, кібербезпеці та критичній інфраструктурі</strong>. Екосистема налічує понад 2 600 активних стартапів, що ізразу розраховуються на світові ринки й вміють працювати в умовах обмежень. Проте міжнародна експансія потребує адаптації до <strong>місцевих вимог закупівель, регуляторних стандартів і промислових екосистем</strong>. Це означає подолання <strong>складних сертифікаційних процедур, тривалих тендерних циклів і розпорошеного ринку інституційних покупців</strong>.",
+    ch1_h3:"Українські техкомпанії стикаються зі структурними бар'єрами при виході на західні ринки",
+    ch1_p:"Українські технології вже працюють в реальних умовах, у <strong>обороні, енергетиці, кібербезпеці та критичній інфраструктурі</strong>. Екосистема налічує понад 2 600 активних стартапів, що ізразу розраховуються на світові ринки й вміють працювати в умовах обмежень. Проте міжнародна експансія потребує адаптації до <strong>місцевих вимог закупівель, регуляторних стандартів і промислових екосистем</strong>. Це означає подолання <strong>складних сертифікаційних процедур, тривалих тендерних циклів і розпорошеного ринку інституційних покупців</strong>.",
     ch2_h3:"Відбудова України: реальний ринок для європейського бізнесу",
     ch2_p:"Потреби у відновленні колосальні, а <strong>обсяги необхідного фінансування</strong> у ключових секторах велетенські. Забезпечити цю роботу можна лише за активної участі приватного сектору, який підтримують <strong>спеціальні фінансові інструменти</strong>, розроблені, щоб спростити й знизити ризики. Компанії, що входять рано, з <strong>міцним місцевим анкеруванням і доступом до різних форм фінансування</strong>, здобувають перевагу першого гравця, будують міцні партнерства і перетворюють перші проєкти на довгострокові відносини.",
     conclusion:"Вузьке місце однакове з обох боків: перетворити можливості на структуровані, фінансовані й реалізовані проєкти. Саме тут і працює ISKRA.",
@@ -807,9 +1093,6 @@ function setLang(lang) {
   document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
   document.querySelector('.lang-btn[onclick="setLang(\'' + lang + '\')"]').classList.add('active');
   document.documentElement.lang = lang === 'ua' ? 'uk' : lang;
-  const legalTitles = {en:'Legal notice',fr:'Mentions l\u00e9gales',ua:'\u041f\u0440\u0430\u0432\u043e\u0432\u0430 \u0456\u043d\u0444\u043e\u0440\u043c\u0430\u0446\u0456\u044f'};
-  const legalEl = document.getElementById('legal-title');
-  if(legalEl) legalEl.textContent = legalTitles[lang];
 }
 
 function toggleMenu() {
@@ -817,31 +1100,33 @@ function toggleMenu() {
   document.getElementById('mobileMenu').classList.toggle('open');
 }
 
-// Animations
-document.querySelectorAll('.fade-in').forEach(el => {
-  el.style.opacity = '0';
-  el.style.transform = 'translateY(20px)';
-  el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-});
+// Scroll progress + nav shrink
+const nav = document.getElementById('mainNav');
+const progress = document.getElementById('scrollProgress');
+window.addEventListener('scroll', () => {
+  const h = document.documentElement;
+  const scrolled = (h.scrollTop) / (h.scrollHeight - h.clientHeight) * 100;
+  progress.style.width = scrolled + '%';
+  if (h.scrollTop > 40) nav.classList.add('scrolled');
+  else nav.classList.remove('scrolled');
+}, { passive: true });
 
+// Reveal on scroll
 const observer = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
     if (entry.isIntersecting) {
-      entry.target.style.opacity = '1';
-      entry.target.style.transform = 'translateY(0)';
+      entry.target.classList.add('visible');
+      observer.unobserve(entry.target);
     }
   });
-}, { threshold: 0.05 });
+}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
 
 document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
 
-// Fallback: tout visible après 500ms
+// Fallback safety net
 setTimeout(() => {
-  document.querySelectorAll('.fade-in').forEach(el => {
-    el.style.opacity = '1';
-    el.style.transform = 'translateY(0)';
-  });
-}, 500);
+  document.querySelectorAll('.fade-in').forEach(el => el.classList.add('visible'));
+}, 1500);
 </script>
 </body>
 </html>
