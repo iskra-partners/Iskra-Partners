@@ -613,10 +613,10 @@ section {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  height: 76px;
+  height: 100px;
   max-width: 100%;
   margin-bottom: 1.6rem;
-  padding: 0.8rem 1.6rem;
+  padding: 0.9rem 1.5rem;
   background: #ffffff;
   border-radius: 6px;
 }
@@ -673,6 +673,70 @@ section {
   max-width: 320px;
 }
 .partner-rep strong { color: var(--cream); font-weight: 500; }
+
+/* Partner groups */
+.group-label {
+  font-size: 0.66rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--cream-soft);
+  margin: 0 auto 2rem;
+  display: flex;
+  align-items: center;
+  gap: 1.1rem;
+}
+.group-label::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, var(--cream-faint), transparent);
+}
+.group-label.grp-legal { max-width: 538px; }
+.group-label.grp-eco { max-width: 538px; }
+.group-label.is-second { margin-top: 5rem; }
+
+/* Ecosystem & institutional partners — logo wall */
+.group-note {
+  font-size: 0.74rem;
+  font-weight: 300;
+  color: var(--cream-soft);
+  max-width: 538px;
+  margin: -1.2rem auto 2.2rem;
+}
+
+.eco-item {
+  display: grid;
+  grid-template-columns: 170px 1fr;
+  gap: 1.5rem;
+  align-items: start;
+}
+.eco-item .partner-logo-wrap {
+  height: 92px;
+  padding: 0.6rem 0.8rem;
+  margin-bottom: 0;
+}
+.eco-item .partner-logo-wrap img { max-width: 145px; }
+.eco-item h4 {
+  font-family: var(--serif);
+  font-size: 1.12rem;
+  font-weight: 400;
+  color: var(--cream);
+  margin-bottom: 0.3rem;
+  line-height: 1.3;
+}
+.eco-type {
+  font-size: 0.6rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 0.8rem;
+}
+.eco-item p {
+  font-size: 0.84rem;
+  color: var(--cream-dim);
+  line-height: 1.75;
+  font-weight: 300;
+}
 
 /* Initiatives */
 
@@ -916,7 +980,15 @@ footer a:hover { color: var(--gold); }
   .partner-card { padding: 1.8rem 1.4rem; }
   .partner-card h3 { font-size: 1.05rem; }
   .partner-card p { font-size: 0.85rem; }
-  .partner-logo-wrap { height: 64px; }
+  .partner-logo-wrap { height: 84px; }
+  .eco-item { grid-template-columns: 1fr; gap: 1rem; }
+  .group-note { font-size: 0.72rem; max-width: 100%; margin: -0.6rem 0 1.8rem; }
+  .group-label { letter-spacing: 0.22em; font-size: 0.6rem; max-width: 100% !important; }
+  .group-label::after { display: none; }
+  .group-label.is-second { margin-top: 3.2rem; }
+  .eco-item .partner-logo-wrap { height: 84px; }
+  .eco-item h4 { font-size: 1.08rem; }
+  .eco-item p { font-size: 0.82rem; }
 
   .initiative-media { height: 160px; }
   .initiative-body { padding: 1.8rem 1.4rem 2rem; }
@@ -980,7 +1052,7 @@ footer a:hover { color: var(--gold); }
   <img class="hero-logo" src="logo_white_transpback.png" alt="ISKRA Partners">
   <h1 data-i18n="hero_headline">Bridging Ukrainian and Western markets</h1>
   <p data-i18n="hero_p">An execution partner for Ukrainian technology companies scaling into EU and US markets, and for European industrial players seeking to access and deliver reconstruction projects in Ukraine.</p>
-  <a href="mailto:contact@iskra-partners.com" class="hero-cta" data-i18n="hero_cta">Get in touch</a>
+  <a href="mailto:valentin@iskra-partners.com" class="hero-cta" data-i18n="hero_cta">Get in touch</a>
   <div class="hero-cities">
     <span>Paris</span><span class="dot"></span>
     <span>Kyiv</span><span class="dot"></span>
@@ -1102,6 +1174,8 @@ footer a:hover { color: var(--gold); }
   <div class="section-header fade-in">
     <span class="section-label" data-i18n="partners_label">Our partners</span>
   </div>
+
+  <p class="group-label grp-legal fade-in" data-i18n="grp_legal">Legal counsel</p>
   <div class="carousel fade-in" data-carousel>
     <div class="carousel-viewport">
       <div class="carousel-track">
@@ -1125,11 +1199,51 @@ footer a:hover { color: var(--gold); }
             <p data-i18n="ras_rep"><strong>Gia Getsadze</strong> — Senior Partner &amp; Founder, Kyiv<br>Former First Deputy Minister of Justice of Georgia (2003-2004) and Deputy Minister of Justice of Ukraine (2015-2018).</p>
           </div>
         </div>
-        <div class="partner-card carousel-slide">
+      </div>
+    </div>
+    <div class="carousel-controls">
+      <button class="carousel-arrow prev" aria-label="Previous">‹</button>
+      <div class="carousel-dots"></div>
+      <button class="carousel-arrow next" aria-label="Next">›</button>
+    </div>
+  </div>
+
+  <p class="group-label grp-eco is-second fade-in" data-i18n="grp_eco">Ecosystem &amp; institutions</p>
+  <p class="group-note fade-in" data-i18n="grp_eco_note">All partnerships formalised under a Memorandum of Understanding.</p>
+  <div class="carousel fade-in" data-carousel>
+    <div class="carousel-viewport">
+      <div class="carousel-track">
+        <div class="eco-item carousel-slide">
           <div class="partner-logo-wrap"><img src="kharkiv_IT.png" alt="Kharkiv IT Cluster"></div>
-          <h3>Kharkiv IT Cluster</h3>
-          <p class="partner-type" data-i18n="khar_type">Strategic Ecosystem Partner</p>
-          <p data-i18n="khar_p">One of Ukraine's leading technology ecosystems, bringing together more than 1,000 companies and partners, 50,000 professionals and 250 educational institutions. Under a Memorandum of Understanding, ISKRA Partners and Kharkiv IT Cluster connect member companies with European partners — with a particular focus on France — through business introductions, events and joint initiatives across AI, cybersecurity, defence and dual-use technologies, digital transformation and reconstruction.</p>
+          <div class="eco-body">
+            <h4>Kharkiv IT Cluster</h4>
+            <p class="eco-type" data-i18n="khar_type">Strategic Ecosystem Partner</p>
+            <p data-i18n="khar_short">One of Ukraine's leading technology ecosystems, bringing together more than 1,000 companies and partners, 50,000 professionals and 250 educational institutions. ISKRA Partners connects its members with European partners, with a particular focus on France.</p>
+          </div>
+        </div>
+        <div class="eco-item carousel-slide">
+          <div class="partner-logo-wrap"><img src="artefact-logo-768x784-1.png" alt="Artefact"></div>
+          <div class="eco-body">
+            <h4>Artefact</h4>
+            <p class="eco-type" data-i18n="art_type">Strategic Ecosystem Partner</p>
+            <p data-i18n="art_short">Global consulting and engineering company specialising in data and artificial intelligence, and organiser of the Adopt AI Summit — one of Europe's leading AI events. ISKRA Partners works with Artefact to bring Ukrainian technology companies and innovation ecosystems into the European AI community.</p>
+          </div>
+        </div>
+        <div class="eco-item carousel-slide">
+          <div class="partner-logo-wrap"><img src="images.png" alt="Regional Development Agency of Kyiv Region"></div>
+          <div class="eco-body">
+            <h4>Regional Development Agency — Kyiv Region</h4>
+            <p class="eco-type" data-i18n="rdak_type">Institutional Partner</p>
+            <p data-i18n="rdak_short">Institutional partner supporting the identification, preparation and structuring of reconstruction projects in the Kyiv region.</p>
+          </div>
+        </div>
+        <div class="eco-item carousel-slide">
+          <div class="partner-logo-wrap"><img src="rda-logo-name-down-5.png" alt="Regional Development Agency of Odesa Region"></div>
+          <div class="eco-body">
+            <h4>Regional Development Agency — Odesa Region</h4>
+            <p class="eco-type" data-i18n="rdao_type">Institutional Partner</p>
+            <p data-i18n="rdao_short">Institutional partner supporting the identification, preparation and structuring of reconstruction projects in the Odesa region.</p>
+          </div>
         </div>
       </div>
     </div>
@@ -1193,7 +1307,7 @@ footer a:hover { color: var(--gold); }
 <section id="contact" class="contact-section">
   <h2 data-i18n="contact_h2" class="fade-in">Let's work together</h2>
   <p data-i18n="contact_p" class="fade-in stagger-1">If you are a Ukrainian technology company preparing to scale into European and US markets, or a European industrial player looking to access and execute funded projects in Ukraine, get in touch.</p>
-  <a href="mailto:contact@iskra-partners.com" class="contact-link fade-in stagger-2" data-i18n="contact_btn">Get in touch</a>
+  <a href="mailto:valentin@iskra-partners.com" class="contact-link fade-in stagger-2" data-i18n="contact_btn">Get in touch</a>
 </section>
 
 </main>
@@ -1208,7 +1322,7 @@ footer a:hover { color: var(--gold); }
     <button onclick="document.getElementById('legal-modal').style.display='none'" style="background:none;border:1px solid var(--cream-faint);color:#f5f3ef;padding:0.55rem 1.6rem;cursor:pointer;font-size:0.75rem;letter-spacing:0.18em;text-transform:uppercase;margin-bottom:3rem;font-family:var(--sans);" data-i18n="legal_close">Close</button>
     <h2 style="font-family:'Fraunces',serif;font-size:2.2rem;font-weight:400;color:#f5f3ef;margin-bottom:2rem;" data-i18n="legal_title">Legal notice</h2>
     <div style="font-size:0.9rem;color:rgba(245,243,239,0.7);line-height:1.85;display:flex;flex-direction:column;gap:1.6rem;font-weight:300;">
-      <div><p style="color:#f5f3ef;font-weight:500;margin-bottom:0.5rem;letter-spacing:0.05em;" data-i18n="legal_pub_title">Publisher</p><p>Valentin Jedraszyk — ISKRA Partners<br>Paris, France<br><a href="mailto:contact@iskra-partners.com" style="color:rgba(245,243,239,0.7);">contact@iskra-partners.com</a></p></div>
+      <div><p style="color:#f5f3ef;font-weight:500;margin-bottom:0.5rem;letter-spacing:0.05em;" data-i18n="legal_pub_title">Publisher</p><p>Valentin Jedraszyk — ISKRA Partners<br>25 rue de Ponthieu, 75008 Paris, France<br>SIREN 109542746<br><a href="mailto:valentin@iskra-partners.com" style="color:rgba(245,243,239,0.7);">valentin@iskra-partners.com</a></p></div>
       <div><p style="color:#f5f3ef;font-weight:500;margin-bottom:0.5rem;letter-spacing:0.05em;" data-i18n="legal_host_title">Hosting</p><p>GitHub Pages — GitHub, Inc.<br>88 Colin P Kelly Jr St<br>San Francisco, CA 94107, United States<br>pages.github.com</p></div>
       <div><p style="color:#f5f3ef;font-weight:500;margin-bottom:0.5rem;letter-spacing:0.05em;" data-i18n="legal_ip_title">Intellectual property</p><p data-i18n="legal_ip_p">All content on this site (texts, images, logos) is the exclusive property of ISKRA Partners. Any reproduction, even partial, is prohibited without prior authorization.</p></div>
       <div><p style="color:#f5f3ef;font-weight:500;margin-bottom:0.5rem;letter-spacing:0.05em;" data-i18n="legal_data_title">Personal data</p><p data-i18n="legal_data_p">This site does not collect any personal data. No tracking cookies are used. Email exchanges are treated confidentially and are not shared with third parties.</p></div>
@@ -1254,8 +1368,17 @@ const translations = {
     app_rep:"<strong>Marc Tejtel</strong> — Partner, Washington, D.C.<br>Former Deputy Chief Counsel for Strategic Initiatives at the U.S. Department of Commerce.",
     ras_type:"Ukrainian Legal Counsel",ras_p:"A Ukrainian law firm with headquarters in Kyiv, advising international companies and investors on corporate, regulatory and legal matters in Ukraine. Rasons Legal supports ISKRA Partners and its clients on all legal aspects of operating in Ukraine, including corporate establishment, regulatory compliance, anti-corruption and governance frameworks, public sector projects, and complex cross-border transactions.",
     ras_rep:"<strong>Gia Getsadze</strong> — Senior Partner &amp; Founder, Kyiv<br>Former First Deputy Minister of Justice of Georgia (2003-2004) and Deputy Minister of Justice of Ukraine (2015-2018).",
+    grp_legal:"Legal counsel",
+    grp_eco:"Ecosystem & institutions",
+    grp_eco_note:"All partnerships formalised under a Memorandum of Understanding.",
     khar_type:"Strategic Ecosystem Partner",
-    khar_p:"One of Ukraine's leading technology ecosystems, bringing together more than 1,000 companies and partners, 50,000 professionals and 250 educational institutions. Under a Memorandum of Understanding, ISKRA Partners and Kharkiv IT Cluster connect member companies with European partners — with a particular focus on France — through business introductions, events and joint initiatives across AI, cybersecurity, defence and dual-use technologies, digital transformation and reconstruction.",
+    khar_short:"One of Ukraine's leading technology ecosystems, bringing together more than 1,000 companies and partners, 50,000 professionals and 250 educational institutions. ISKRA Partners connects its members with European partners, with a particular focus on France.",
+    art_type:"Strategic Ecosystem Partner",
+    art_short:"Global consulting and engineering company specialising in data and artificial intelligence, and organiser of the Adopt AI Summit — one of Europe's leading AI events. ISKRA Partners works with Artefact to bring Ukrainian technology companies and innovation ecosystems into the European AI community.",
+    rdak_type:"Institutional Partner",
+    rdak_short:"Institutional partner supporting the identification, preparation and structuring of reconstruction projects in the Kyiv region.",
+    rdao_type:"Institutional Partner",
+    rdao_short:"Institutional partner supporting the identification, preparation and structuring of reconstruction projects in the Odesa region.",
     initiatives_label:"Selected ecosystem initiatives",
     init1_h3:"Webinar with Bpifrance (French Public Investment Bank)",
     init1_date:"March 2026",
@@ -1314,8 +1437,17 @@ const translations = {
     ras_type:"Conseil juridique ukrainien",
     ras_p:"Cabinet d'avocats ukrainien basé à Kyiv, conseillant des entreprises et investisseurs internationaux sur les aspects corporate, réglementaires et juridiques en Ukraine. Rasons Legal accompagne ISKRA Partners et ses clients sur l'ensemble des aspects juridiques liés à l'activité en Ukraine, y compris la création de sociétés, la conformité réglementaire, les dispositifs anti-corruption et de gouvernance, les projets du secteur public et les transactions transfrontalières complexes.",
     ras_rep:"<strong>Gia Getsadze</strong> — Associé principal &amp; Fondateur, Kyiv<br>Ancien Premier vice-ministre de la Justice de Géorgie (2003-2004) et vice-ministre de la Justice d'Ukraine (2015-2018).",
+    grp_legal:"Conseil juridique",
+    grp_eco:"Écosystème & institutions",
+    grp_eco_note:"Partenariats formalisés par un mémorandum d'entente.",
     khar_type:"Partenaire écosystème stratégique",
-    khar_p:"L'un des principaux écosystèmes technologiques d'Ukraine, réunissant plus de 1 000 entreprises et partenaires, 50 000 professionnels et 250 établissements d'enseignement. Dans le cadre d'un mémorandum d'entente, ISKRA Partners et le Kharkiv IT Cluster mettent en relation les entreprises membres avec des partenaires européens — avec un accent particulier sur la France — via des introductions commerciales, des événements et des initiatives conjointes dans l'IA, la cybersécurité, les technologies de défense et de double usage, la transformation numérique et la reconstruction.",
+    khar_short:"L'un des principaux écosystèmes technologiques d'Ukraine, réunissant plus de 1 000 entreprises et partenaires, 50 000 professionnels et 250 établissements d'enseignement. ISKRA Partners met ses membres en relation avec des partenaires européens, avec un accent particulier sur la France.",
+    art_type:"Partenaire écosystème stratégique",
+    art_short:"Société internationale de conseil et d'ingénierie spécialisée dans la donnée et l'intelligence artificielle, organisatrice de l'Adopt AI Summit — l'un des principaux événements européens dédiés à l'IA. ISKRA Partners travaille avec Artefact à intégrer les entreprises technologiques et les écosystèmes d'innovation ukrainiens à la communauté européenne de l'IA.",
+    rdak_type:"Partenaire institutionnel",
+    rdak_short:"Partenaire institutionnel accompagnant l'identification, la préparation et la structuration de projets de reconstruction dans la région de Kyiv.",
+    rdao_type:"Partenaire institutionnel",
+    rdao_short:"Partenaire institutionnel accompagnant l'identification, la préparation et la structuration de projets de reconstruction dans la région d'Odesa.",
     initiatives_label:"Nos initiatives",
     init1_h3:"Webinaire avec Bpifrance (Banque publique d'investissement)",
     init1_date:"Mars 2026",
@@ -1374,8 +1506,17 @@ const translations = {
     ras_type:"Ukraiński doradca prawny",
     ras_p:"Ukraińska kancelaria prawna z siedzibą w Kijowie, doradzająca międzynarodowym firmom i inwestorom w kwestiach korporacyjnych, regulacyjnych i prawnych na Ukrainie. Rasons Legal wspiera ISKRA Partners i jej klientów we wszystkich aspektach prawnych działalności na Ukrainie, w tym w zakładaniu spółek, zgodności regulacyjnej, ramach antykorupcyjnych i ładu korporacyjnego, projektach sektora publicznego oraz złożonych transakcjach transgranicznych.",
     ras_rep:"<strong>Gia Getsadze</strong> — Starszy Partner i Założyciel, Kijów<br>Były Pierwszy Wiceminister Sprawiedliwości Gruzji (2003-2004) oraz Wiceminister Sprawiedliwości Ukrainy (2015-2018).",
+    grp_legal:"Doradztwo prawne",
+    grp_eco:"Ekosystem i instytucje",
+    grp_eco_note:"Partnerstwa sformalizowane memorandum o porozumieniu.",
     khar_type:"Strategiczny partner ekosystemowy",
-    khar_p:"Jeden z wiodących ekosystemów technologicznych Ukrainy, skupiający ponad 1 000 firm i partnerów, 50 000 specjalistów oraz 250 instytucji edukacyjnych. W ramach memorandum o porozumieniu ISKRA Partners i Kharkiv IT Cluster łączą firmy członkowskie z partnerami europejskimi — ze szczególnym uwzględnieniem Francji — poprzez kontakty biznesowe, wydarzenia i wspólne inicjatywy w obszarach AI, cyberbezpieczeństwa, technologii obronnych i podwójnego zastosowania, transformacji cyfrowej oraz odbudowy.",
+    khar_short:"Jeden z wiodących ekosystemów technologicznych Ukrainy, skupiający ponad 1 000 firm i partnerów, 50 000 specjalistów oraz 250 instytucji edukacyjnych. ISKRA Partners łączy jego członków z partnerami europejskimi, ze szczególnym uwzględnieniem Francji.",
+    art_type:"Strategiczny partner ekosystemowy",
+    art_short:"Globalna firma doradcza i inżynieryjna specjalizująca się w danych i sztucznej inteligencji, organizator Adopt AI Summit — jednego z wiodących europejskich wydarzeń poświęconych AI. ISKRA Partners współpracuje z Artefact, aby wprowadzać ukraińskie firmy technologiczne i ekosystemy innowacji do europejskiej społeczności AI.",
+    rdak_type:"Partner instytucjonalny",
+    rdak_short:"Partner instytucjonalny wspierający identyfikację, przygotowanie i strukturyzację projektów odbudowy w obwodzie kijowskim.",
+    rdao_type:"Partner instytucjonalny",
+    rdao_short:"Partner instytucjonalny wspierający identyfikację, przygotowanie i strukturyzację projektów odbudowy w obwodzie odeskim.",
     initiatives_label:"Nasze inicjatywy",
     init1_h3:"Webinarium z Bpifrance (Francuskim Bankiem Inwestycji Publicznych)",
     init1_date:"Marzec 2026",
@@ -1434,8 +1575,17 @@ const translations = {
     ras_type:"Український юридичний радник",
     ras_p:"Українська юридична фірма зі штаб-квартирою в Києві, що консультує міжнародні компанії та інвесторів з корпоративних, регуляторних і правових питань в Україні. Rasons Legal супроводжує ISKRA Partners та її клієнтів з усіх юридичних аспектів роботи в Україні, включно зі створенням юридичних осіб, регуляторним комплаєнсом, антикорупційними механізмами та корпоративним управлінням, державними проєктами та складними транскордонними операціями.",
     ras_rep:"<strong>Гія Гецадзе</strong> — старший партнер і засновник, Київ<br>Колишній Перший заступник Міністра юстиції Грузії (2003-2004) та заступник Міністра юстиції України (2015-2018).",
+    grp_legal:"Юридичні радники",
+    grp_eco:"Екосистема та інституції",
+    grp_eco_note:"Партнерства закріплені меморандумами про взаєморозуміння.",
     khar_type:"Стратегічний партнер екосистеми",
-    khar_p:"Одна з провідних технологічних екосистем України, що об'єднує понад 1 000 компаній і партнерів, 50 000 фахівців та 250 освітніх закладів. У межах меморандуму про взаєморозуміння ISKRA Partners і Kharkiv IT Cluster поєднують компанії-учасниці з європейськими партнерами — з особливим акцентом на Францію — через бізнес-знайомства, заходи та спільні ініціативи у сферах ШІ, кібербезпеки, оборонних технологій і подвійного використання, цифрової трансформації та відбудови.",
+    khar_short:"Одна з провідних технологічних екосистем України, що об'єднує понад 1 000 компаній і партнерів, 50 000 фахівців та 250 освітніх закладів. ISKRA Partners поєднує її учасників з європейськими партнерами, з особливим акцентом на Францію.",
+    art_type:"Стратегічний партнер екосистеми",
+    art_short:"Міжнародна консалтингова та інженерна компанія, що спеціалізується на даних і штучному інтелекті, організатор Adopt AI Summit — однієї з провідних європейських подій у сфері ШІ. ISKRA Partners співпрацює з Artefact, щоб інтегрувати українські технологічні компанії та інноваційні екосистеми в європейську спільноту ШІ.",
+    rdak_type:"Інституційний партнер",
+    rdak_short:"Інституційний партнер, що підтримує визначення, підготовку та структурування проєктів відбудови в Київській області.",
+    rdao_type:"Інституційний партнер",
+    rdao_short:"Інституційний партнер, що підтримує визначення, підготовку та структурування проєктів відбудови в Одеській області.",
     initiatives_label:"Наші ініціативи",
     init1_h3:"Вебінар з Bpifrance (Французьким державним інвестиційним банком)",
     init1_date:"Березень 2026",
