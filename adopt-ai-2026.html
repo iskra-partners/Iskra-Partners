@@ -526,10 +526,11 @@ h2 {
   border-top: 1px solid var(--gold-faint);
 }
 /* Un trait, pas une pastille : l'icone dit le format du service et s'arrete la. */
-.col-icon { margin: 0 0 1.5rem; color: var(--cream-soft); }
+.col-icon { margin: 0 auto 1.8rem; color: var(--cream-soft); }
 .col-icon svg {
   display: block;
-  width: 40px; height: 40px;
+  margin: 0 auto;
+  width: 62px; height: 62px;
   fill: none;
   stroke: currentColor;
   stroke-width: 1.25;
@@ -655,7 +656,6 @@ form { margin-top: 2.6rem; }
 .field .check:hover { border-color: var(--cream-soft); color: var(--cream); }
 .field .check:has(input:checked) {
   border-color: var(--cream-soft);
-  background: rgba(245,243,239,0.07);
   color: var(--cream);
 }
 .field .check input {
@@ -671,15 +671,16 @@ form { margin-top: 2.6rem; }
   transition: border-color 0.25s var(--ease), background 0.25s var(--ease);
 }
 .field .check:hover input { border-color: var(--cream-soft); }
-.field .check input:checked { background: var(--cream); border-color: var(--cream); }
+/* Coche dessinee au trait : rien n'est rempli, donc aucun aplat de couleur. */
+.field .check input:checked { border-color: var(--cream-soft); }
 .field .check input:checked::after {
   content: '';
   position: absolute;
-  left: 3px; top: 6px;
-  width: 5px; height: 2px;
-  background: var(--navy-deep);
-  transform: rotate(45deg);
-  box-shadow: 4px -4px 0 0 var(--navy-deep), 6px -6px 0 0 var(--navy-deep);
+  left: 4px; top: 1px;
+  width: 5px; height: 9px;
+  border: solid var(--cream);
+  border-width: 0 1.5px 1.5px 0;
+  transform: rotate(42deg);
 }
 
 .form-actions { display: flex; align-items: center; gap: 1.5rem 2rem; flex-wrap: wrap; margin-top: 2.4rem; }
@@ -1254,24 +1255,49 @@ function collect() {
     website: get('website'),
     passes: get('passes'),
     interest: interests.length ? interests.join(', ') : 'None',
+    interests: interests,
     subject: 'Ukraine at Adopt AI 2026 — delegation pass request'
   };
 }
 
 function mailtoFallback(data) {
+  // On redige un vrai message a la premiere personne : un empilement
+  // « Champ : valeur » fait formulaire, pas courrier.
+  const site = data.website.replace(/^https?:\/\//i, '').replace(/\/$/, '');
+  const n = parseInt(data.passes, 10);
+  const passes = n + (n === 1 ? ' delegation pass' : ' delegation passes');
+
   const lines = [
-    'Company name: ' + data.company,
-    'Contact person: ' + data.contact,
-    'Professional email: ' + data.email,
-    'Company website: ' + data.website,
-    'Number of passes: ' + data.passes,
-    'Additional services: ' + data.interest
+    'Hello,',
+    '',
+    'I am ' + data.contact + ', from ' + data.company + ' (' + site + ').',
+    '',
+    'I would like to reserve ' + passes + ' for Ukraine at Adopt AI 2026, ' +
+      'on 3 and 4 December at the Grand Palais.'
   ];
+
+  if (data.interests.length) {
+    const list = data.interests.length === 1
+      ? data.interests[0]
+      : data.interests.slice(0, -1).join(', ') + ' and ' + data.interests[data.interests.length - 1];
+    lines.push('', 'I am also interested in ' + list + '.');
+  }
+
+  lines.push(
+    '',
+    'Could you confirm availability and send me the payment details and the practical information?',
+    '',
+    'Best regards,',
+    data.contact,
+    data.company,
+    data.email
+  );
+
   const href = 'mailto:' + CONTACT_EMAIL +
     '?subject=' + encodeURIComponent(data.subject) +
     '&body=' + encodeURIComponent(lines.join('\n'));
   setStatusWithLink(
-    'Your request is ready. Your email app should open with it filled in — if it does not,',
+    'Your request is ready. Your email app should open with it written out — if it does not,',
     href,
     'open it here',
     ' and press send.'
