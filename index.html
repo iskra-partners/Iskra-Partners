@@ -170,6 +170,11 @@ nav.scrolled {
   transition: width 0.4s var(--ease);
 }
 .nav-links a:hover { color: var(--cream); }
+/* seule entree du menu qui mene a une autre page : signalee en dore */
+.nav-links a.nav-live { color: var(--gold); }
+.nav-links a.nav-live::after { width: 100%; background: var(--gold-faint); }
+.nav-links a.nav-live:hover::after { background: var(--gold); }
+.mobile-menu a.nav-live { color: var(--gold); }
 .nav-links a:hover::after { width: 100%; }
 
 /* Hero */
@@ -966,6 +971,14 @@ footer a:hover { color: var(--gold); }
 }
 
 /* Mobile */
+@media (max-width: 1150px) and (min-width: 901px) {
+  nav, nav.scrolled { padding: 1rem 2rem; }
+  .nav-links { gap: 1.5rem; }
+  .nav-links a { font-size: 0.64rem; letter-spacing: 0.12em; }
+  .logo img { height: 52px; }
+  nav.scrolled .logo img { height: 52px; }
+}
+
 @media (max-width: 900px) {
   nav, nav.scrolled { padding: 1rem 1.1rem; }
   .logo img { height: 44px; }
@@ -1062,6 +1075,7 @@ footer a:hover { color: var(--gold); }
     <li><a href="#partners" data-i18n="nav_partners">Partners</a></li>
     <li><a href="#initiatives" data-i18n="nav_initiatives">Initiatives</a></li>
     <li><a href="#contact" data-i18n="nav_contact">Contact</a></li>
+    <li><a href="adopt-ai-2026.html" class="nav-live">Adopt AI</a></li>
   </ul>
   <div class="nav-actions" style="display:flex;align-items:center;gap:0.7rem;">
     <div class="lang-switcher">
@@ -1083,6 +1097,7 @@ footer a:hover { color: var(--gold); }
   <a href="#partners" onclick="toggleMenu()" data-i18n="nav_partners">Partners</a>
   <a href="#initiatives" onclick="toggleMenu()" data-i18n="nav_initiatives">Initiatives</a>
   <a href="#contact" onclick="toggleMenu()" data-i18n="nav_contact">Contact</a>
+  <a href="adopt-ai-2026.html" class="nav-live">Adopt AI</a>
 </div>
 
 <main>
