@@ -187,20 +187,6 @@ nav.scrolled {
   overflow: hidden;
 }
 
-.hero::after {
-  content: '';
-  position: absolute;
-  bottom: 30px; left: 50%;
-  transform: translateX(-50%);
-  width: 1px; height: 48px;
-  background: linear-gradient(180deg, transparent, var(--gold-faint));
-  animation: scrollPulse 2.6s var(--ease) infinite;
-}
-@keyframes scrollPulse {
-  0%, 100% { opacity: 0.25; transform: translateX(-50%) scaleY(0.5); }
-  50%      { opacity: 1;    transform: translateX(-50%) scaleY(1); }
-}
-
 .hero-eyebrow {
   font-size: 0.68rem;
   letter-spacing: 0.42em;
@@ -503,16 +489,6 @@ section {
   margin-top: 1.5rem;
 }
 
-/* ---------- Le meme trait que sous le hero, sans la pulsation : une
-   respiration entre deux sections. Volontairement pas a chaque fois. ---------- */
-
-.rule-tick {
-  width: 1px;
-  height: 48px;
-  margin: 0 auto;
-  background: linear-gradient(180deg, var(--gold-faint), transparent);
-}
-
 /* ---------- Services : l'image en arriere-plan, delavee et desaturee,
    pour qu'elle porte l'atmosphere sans disputer la lecture. Le voile
    blanc en haut et en bas fond la photo dans la page. ---------- */
@@ -582,86 +558,6 @@ section {
 
 /* Ouvert, le detail traverse toute la bande : deux colonnes larges
    plutot que deux colonnes etroites coincees sous le texte. */
-.service-more { grid-column: 1 / -1; margin-top: 0.2rem; }
-.service-more summary {
-  list-style: none;
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.65rem;
-  font-size: 0.64rem;
-  letter-spacing: 0.24em;
-  text-transform: uppercase;
-  color: var(--gold);
-  transition: color 0.3s var(--ease);
-}
-.service-more summary::-webkit-details-marker { display: none; }
-.service-more summary::after {
-  content: '';
-  width: 6px; height: 6px;
-  border-right: 1px solid currentColor;
-  border-bottom: 1px solid currentColor;
-  transform: translateY(-2px) rotate(45deg);
-  transition: transform 0.3s var(--ease);
-}
-.service-more[open] summary::after { transform: translateY(1px) rotate(225deg); }
-.service-more summary:hover { color: var(--gold-light); }
-
-.service-row .track-list {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 0;
-  margin: 1.6rem 0 0;
-}
-/* Un damier : les cases pleines et les cases vides alternent, comme un
-   echiquier. Le bloc se lit en quatre temps au lieu d'un seul pave. */
-.service-row .track-list li {
-  padding: 1.6rem 1.8rem;
-  font-size: 0.88rem;
-  color: var(--cream-dim);
-  line-height: 1.8;
-  position: relative;
-}
-.service-row .track-list li::before { display: none; }
-.service-row .track-list li:nth-child(1),
-.service-row .track-list li:nth-child(4) { background: rgba(1,19,58,0.042); }
-.service-row .track-list li strong {
-  display: block;
-  font-family: var(--serif);
-  font-size: 1rem;
-  font-weight: 400;
-  letter-spacing: 0.005em;
-  color: var(--cream);
-  margin-bottom: 0.5rem;
-}
-
-.track-list {
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  margin-top: 1.7rem;
-}
-.track-list li {
-  font-size: 0.92rem;
-  color: var(--cream-dim);
-  padding-left: 1.6rem;
-  position: relative;
-  line-height: 1.75;
-  font-weight: 300;
-}
-.track-list li::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 0.72em;
-  width: 6px;
-  height: 6px;
-  border: 1px solid var(--gold);
-  transform: rotate(45deg);
-}
-.track-list li strong { color: var(--cream); font-weight: 500; }
-
 .track-conclusion {
   grid-column: 1 / -1;
   padding: 2.6rem 3rem;
@@ -1129,24 +1025,10 @@ footer a:hover { color: var(--gold); }
 
   .challenge-block { grid-template-columns: 1fr; gap: 1.4rem; padding: 0.5rem 0.2rem; }
   .service-row { grid-template-columns: minmax(0, 1fr); gap: 1rem; padding: 2rem 0 2.2rem; }
-  .service-row .track-list { grid-template-columns: minmax(0, 1fr); }
-  /* En une colonne, le damier devient un ruban raye : on repasse sur une
-     liste reglee, qui se lit mieux sur un ecran etroit. */
-  .service-row .track-list { border-top: 1px solid var(--cream-faint); }
-  .service-row .track-list li,
-  .service-row .track-list li:nth-child(1),
-  .service-row .track-list li:nth-child(3),
-  .service-row .track-list li:nth-child(4) {
-    background: transparent;
-    padding: 1.15rem 0;
-    border-bottom: 1px solid var(--cream-whisper);
-  }
-  .service-row .track-list li strong { font-size: 0.96rem; margin-bottom: 0.35rem; }
   .ch-aside { border-right: none; padding-right: 0; display: flex; align-items: baseline; gap: 1.1rem; }
   .ch-index { margin-bottom: 0; font-size: 3rem; }
   .ch-main h3 { font-size: 1.4rem; margin-bottom: 1.2rem; }
   .ch-main p { font-size: 0.9rem; line-height: 1.8; }
-  .track-list li { font-size: 0.85rem; padding-left: 1.5rem; }
   .track-conclusion { padding: 1.8rem 1.4rem; font-size: 1rem; }
 
   .team-card, .team-card.reverse { grid-template-columns: 1fr; gap: 1.6rem; }
@@ -1252,15 +1134,6 @@ footer a:hover { color: var(--gold); }
           <p class="track-intro" data-i18n="track1_intro">Helping startups, industrial and service companies assess opportunities and establish a presence in new markets.</p>
           <p class="track-body" data-i18n="track1_p">We support companies from initial market assessment through commercial development and preparation of local operations. The scope reflects the company&rsquo;s objectives, resources and requirements in the target market.</p>
         </div>
-        <details class="service-more">
-          <summary data-i18n="svc_more">In practice</summary>
-          <ul class="track-list">
-            <li data-i18n="track1_li1"><strong>Market assessment and entry strategy</strong> Assessment of demand, customer needs and competition to identify priority markets and suitable entry routes. The analysis considers relevant procurement practices, regulatory requirements and potential commercial partners.</li>
-            <li data-i18n="track1_li2"><strong>Commercial positioning and adaptation of the offer</strong> Refinement of the value proposition for target customers and adaptation of commercial materials to local market practices. This includes the preparation of pitch materials and investor presentations.</li>
-            <li data-i18n="track1_li3"><strong>Customer prospecting and partner qualification</strong> Identification of prospective customers, distributors and industrial partners, followed by targeted outreach and qualification. We support business meetings and trade-show participation, with subsequent commercial follow-up.</li>
-            <li data-i18n="track1_li4"><strong>Local establishment and cross-border structuring</strong> Comparison of options for operating locally, including distribution agreements, partnerships, subsidiaries and joint ventures. With specialist legal counsel, we clarify establishment requirements and map relevant public funding and private investment options.</li>
-          </ul>
-        </details>
       </article>
       <article class="service-row fade-in">
         <div class="service-aside">
@@ -1269,17 +1142,8 @@ footer a:hover { color: var(--gold); }
         </div>
         <div class="service-main">
           <p class="track-intro" data-i18n="track2_intro">Expertise supporting development programmes in developing and emerging economies.</p>
-          <p class="track-body" data-i18n="track2_p">We provide energy-sector and industrial expertise to public institutions, development partners and programme implementers.</p>
+          <p class="track-body" data-i18n="track2_p">We contribute expert inputs to projects implemented by public institutions, development partners and programme implementers.</p>
         </div>
-        <details class="service-more">
-          <summary data-i18n="svc_more">In practice</summary>
-          <ul class="track-list">
-            <li data-i18n="track2_li1"><strong>Policy and regulatory frameworks, energy-sector reform</strong> Sector diagnostics, regulatory gap assessments and alignment with EU frameworks, including electricity-market reform, renewable-energy permitting and energy communities. Analysis of institutional responsibilities and implementation barriers, with regulatory recommendations.</li>
-            <li data-i18n="track2_li2"><strong>Private-sector engagement and project finance</strong> Private-sector engagement strategies, investor outreach and partnership facilitation. Identification and screening of investment opportunities, with assessment of financing mechanisms and risk-mitigation instruments.</li>
-            <li data-i18n="track2_li3"><strong>Capacity building and knowledge transfer</strong> Training needs assessments and development of tailored learning materials. Applied training on energy reform, industrial decarbonisation and project preparation.</li>
-            <li data-i18n="track2_li4"><strong>Energy planning and industrial decarbonisation</strong> Energy planning, scenario analysis and investment prioritisation. Assessment of renewable-energy, storage and flexibility options, industrial decarbonisation roadmaps and CBAM assessments.</li>
-          </ul>
-        </details>
       </article>
       <article class="service-row fade-in">
         <div class="service-aside">
@@ -1290,18 +1154,9 @@ footer a:hover { color: var(--gold); }
           <p class="track-intro" data-i18n="track3_intro">We prepare projects with Ukrainian beneficiaries, international companies and specialist partners.</p>
           <p class="track-body" data-i18n="track3_p">Our work connects priority reconstruction needs with relevant industrial capabilities and potential financing mechanisms. We support the preparation of project scope and delivery arrangements, coordinating the institutional, technical, legal and financial contributions required.</p>
         </div>
-        <details class="service-more">
-          <summary data-i18n="svc_more">In practice</summary>
-          <ul class="track-list">
-            <li data-i18n="track3_li1"><strong>Identify needs and assess project readiness</strong> Collaboration with municipal and regional authorities to identify priority recovery needs. Preliminary assessment of project maturity, beneficiary commitment and institutional responsibilities.</li>
-            <li data-i18n="track3_li2"><strong>Define scope and coordinate technical contributions</strong> Identification and mobilisation of companies and specialist partners with technologies suited to the identified needs. Definition of project scope, expected results and partner responsibilities.</li>
-            <li data-i18n="track3_li3"><strong>Assess financing and prepare funding applications</strong> Assessment of financing eligibility and relevant grants, concessional finance, guarantees and risk-mitigation instruments. Preparation of project concepts and funding applications aligned with financing institutions&rsquo; requirements.</li>
-            <li data-i18n="track3_li4"><strong>Support implementation, coordination and reporting</strong> Facilitation of coordination among beneficiaries, public authorities, participating companies and technical partners. Monitoring of agreed workplans and milestones, with consolidation of progress and results reporting.</li>
-          </ul>
-        </details>
       </article>
   </div>
-</section></section>
+</section>
 
 <section id="team">
   <div class="section-header fade-in">
@@ -1326,8 +1181,6 @@ footer a:hover { color: var(--gold); }
     </div>
   </div>
 </section>
-
-<div class="rule-tick" aria-hidden="true"></div>
 
 <section id="partners">
   <div class="section-header fade-in">
@@ -1467,8 +1320,6 @@ footer a:hover { color: var(--gold); }
   </div>
 </section>
 
-<div class="rule-tick" aria-hidden="true"></div>
-
 <section id="contact" class="contact-section">
   <h2 data-i18n="contact_h2" class="fade-in">Let's work together</h2>
   <p data-i18n="contact_p" class="fade-in stagger-1">We define each assignment around the client&rsquo;s priorities, with agreed outputs and shared responsibilities.</p>
@@ -1498,7 +1349,6 @@ footer a:hover { color: var(--gold); }
 <script>
 const translations = {
   en: {
-    svc_more:"In practice",
     nav_what:"Services",nav_team:"Team",nav_partners:"Partners",nav_initiatives:"Initiatives",nav_contact:"Contact",
     hero_cta:"Get in touch",
     hero_headline:"Strategic advisory and international cooperation",
@@ -1547,27 +1397,14 @@ const translations = {
     track1_h3:"Strategy and international business development",
     track1_intro:"Helping startups, industrial and service companies assess opportunities and establish a presence in new markets.",
     track1_p:"We support companies from initial market assessment through commercial development and preparation of local operations. The scope reflects the company’s objectives, resources and requirements in the target market.",
-    track1_li1:"<strong>Market assessment and entry strategy</strong> Assessment of demand, customer needs and competition to identify priority markets and suitable entry routes. The analysis considers relevant procurement practices, regulatory requirements and potential commercial partners.",
-    track1_li2:"<strong>Commercial positioning and adaptation of the offer</strong> Refinement of the value proposition for target customers and adaptation of commercial materials to local market practices. This includes the preparation of pitch materials and investor presentations.",
-    track1_li3:"<strong>Customer prospecting and partner qualification</strong> Identification of prospective customers, distributors and industrial partners, followed by targeted outreach and qualification. We support business meetings and trade-show participation, with subsequent commercial follow-up.",
-    track1_li4:"<strong>Local establishment and cross-border structuring</strong> Comparison of options for operating locally, including distribution agreements, partnerships, subsidiaries and joint ventures. With specialist legal counsel, we clarify establishment requirements and map relevant public funding and private investment options.",
     track2_h3:"Sector advisory and technical assistance",
     track2_intro:"Expertise supporting development programmes in developing and emerging economies.",
-    track2_p:"We provide energy-sector and industrial expertise to public institutions, development partners and programme implementers.",
-    track2_li1:"<strong>Policy and regulatory frameworks, energy-sector reform</strong> Sector diagnostics, regulatory gap assessments and alignment with EU frameworks, including electricity-market reform, renewable-energy permitting and energy communities. Analysis of institutional responsibilities and implementation barriers, with regulatory recommendations.",
-    track2_li2:"<strong>Private-sector engagement and project finance</strong> Private-sector engagement strategies, investor outreach and partnership facilitation. Identification and screening of investment opportunities, with assessment of financing mechanisms and risk-mitigation instruments.",
-    track2_li3:"<strong>Capacity building and knowledge transfer</strong> Training needs assessments and development of tailored learning materials. Applied training on energy reform, industrial decarbonisation and project preparation.",
-    track2_li4:"<strong>Energy planning and industrial decarbonisation</strong> Energy planning, scenario analysis and investment prioritisation. Assessment of renewable-energy, storage and flexibility options, industrial decarbonisation roadmaps and CBAM assessments.",
+    track2_p:"We contribute expert inputs to projects implemented by public institutions, development partners and programme implementers.",
     track3_h3:"Ukraine reconstruction: energy and water sectors",
     track3_intro:"We prepare projects with Ukrainian beneficiaries, international companies and specialist partners.",
     track3_p:"Our work connects priority reconstruction needs with relevant industrial capabilities and potential financing mechanisms. We support the preparation of project scope and delivery arrangements, coordinating the institutional, technical, legal and financial contributions required.",
-    track3_li1:"<strong>Identify needs and assess project readiness</strong> Collaboration with municipal and regional authorities to identify priority recovery needs. Preliminary assessment of project maturity, beneficiary commitment and institutional responsibilities.",
-    track3_li2:"<strong>Define scope and coordinate technical contributions</strong> Identification and mobilisation of companies and specialist partners with technologies suited to the identified needs. Definition of project scope, expected results and partner responsibilities.",
-    track3_li3:"<strong>Assess financing and prepare funding applications</strong> Assessment of financing eligibility and relevant grants, concessional finance, guarantees and risk-mitigation instruments. Preparation of project concepts and funding applications aligned with financing institutions’ requirements.",
-    track3_li4:"<strong>Support implementation, coordination and reporting</strong> Facilitation of coordination among beneficiaries, public authorities, participating companies and technical partners. Monitoring of agreed workplans and milestones, with consolidation of progress and results reporting."
   },
   fr: {
-    svc_more:"En pratique",
     nav_what:"Services",nav_team:"Équipe",nav_partners:"Partenaires",nav_initiatives:"Initiatives",nav_contact:"Contact",
     hero_cta:"Nous écrire",
     hero_headline:"Conseil stratégique et coopération internationale",
@@ -1618,28 +1455,16 @@ const translations = {
     track1_h3:"Stratégie et développement international",
     track1_intro:"Accompagner les start-ups et les entreprises industrielles et de services dans l’évaluation des opportunités et la préparation de leur présence sur de nouveaux marchés.",
     track1_p:"Nous intervenons depuis l’analyse initiale du marché jusqu’au développement commercial et à la préparation de l’implantation locale. Le périmètre de la mission tient compte des objectifs et des moyens de l’entreprise, ainsi que des exigences du marché cible.",
-    track1_li1:"<strong>Analyse des marchés et stratégie d’accès</strong> Évaluation de la demande, des besoins des clients et de la concurrence afin de déterminer les marchés prioritaires et les modalités d’accès adaptées. L’analyse prend en compte les pratiques d’achat, les exigences réglementaires et les partenaires commerciaux potentiels.",
-    track1_li2:"<strong>Positionnement commercial et adaptation de l’offre</strong> Précision de la proposition de valeur pour les clientèles ciblées et adaptation des supports commerciaux aux pratiques du marché local. Cela inclut la préparation de pitchs et de présentations à destination des investisseurs.",
-    track1_li3:"<strong>Prospection commerciale et qualification des partenaires</strong> Identification de clients, de distributeurs et de partenaires industriels potentiels, suivie de prises de contact ciblées et d’un travail de qualification. Nous accompagnons les rendez-vous d’affaires et la participation aux salons professionnels, puis assurons le suivi commercial.",
-    track1_li4:"<strong>Implantation locale et structuration transfrontalière</strong> Comparaison des modalités d’activité locale : accords de distribution, partenariats, filiales et coentreprises. Avec des conseils juridiques spécialisés, nous précisons les conditions d’implantation et recensons les financements publics et les options d’investissement privé pertinents.",
     track2_h3:"Conseil sectoriel et assistance technique",
     track2_intro:"Une expertise au service des programmes de développement dans les pays émergents et en développement.",
-    track2_p:"Nous apportons une expertise dans les secteurs de l’énergie et de l’industrie aux institutions publiques, aux partenaires du développement et aux organismes de mise en œuvre des programmes.",
-    track2_li1:"<strong>Cadres de politique publique et de réglementation, réformes du secteur de l’énergie</strong> Diagnostics sectoriels, analyse des écarts réglementaires et alignement sur les cadres européens, notamment pour la réforme du marché de l’électricité, les procédures d’autorisation des énergies renouvelables et les communautés énergétiques. Analyse des responsabilités institutionnelles et des freins à la mise en œuvre, avec recommandations réglementaires.",
-    track2_li2:"<strong>Mobilisation du secteur privé et financement de projets</strong> Stratégies de mobilisation du secteur privé, démarchage des investisseurs et facilitation de partenariats. Identification et sélection d’opportunités d’investissement, avec analyse des mécanismes de financement et des instruments d’atténuation des risques.",
-    track2_li3:"<strong>Renforcement des capacités et transfert de connaissances</strong> Évaluation des besoins de formation et conception de supports pédagogiques sur mesure. Formations appliquées sur la réforme du secteur de l’énergie, la décarbonation industrielle et la préparation de projets.",
-    track2_li4:"<strong>Planification énergétique et décarbonation industrielle</strong> Planification énergétique, analyse de scénarios et priorisation des investissements. Évaluation des options en matière d’énergies renouvelables, de stockage et de flexibilité, feuilles de route de décarbonation industrielle et analyses liées au MACF (CBAM).",
+    track2_p:"Nous apportons des contributions d’expertise aux projets mis en œuvre par les institutions publiques, les partenaires du développement et les organismes de mise en œuvre des programmes.",
     track3_h3:"Reconstruction de l’Ukraine : secteurs de l’énergie et de l’eau",
     track3_intro:"Nous préparons des projets avec les bénéficiaires ukrainiens, les entreprises internationales et les partenaires spécialisés.",
     track3_p:"Nos interventions rapprochent les besoins prioritaires de reconstruction des capacités industrielles pertinentes et des mécanismes de financement envisageables. Nous accompagnons la définition du périmètre des projets et de leurs modalités de mise en œuvre, en coordonnant les contributions institutionnelles, techniques, juridiques et financières nécessaires.",
-    track3_li1:"<strong>Identifier les besoins et évaluer la maturité des projets</strong> Collaboration avec les autorités municipales et régionales pour identifier les besoins prioritaires de relèvement. Évaluation préliminaire de la maturité des projets, de l’engagement des bénéficiaires et des responsabilités institutionnelles.",
-    track3_li2:"<strong>Définir le périmètre et coordonner les contributions techniques</strong> Identification et mobilisation d’entreprises et de partenaires spécialisés disposant de technologies adaptées aux besoins recensés. Définition du périmètre des projets, des résultats attendus et des responsabilités des partenaires.",
-    track3_li3:"<strong>Évaluer les financements et préparer les demandes</strong> Évaluation de l’éligibilité aux financements et des subventions, financements concessionnels, garanties et instruments d’atténuation des risques pertinents. Préparation de notes de projet et de demandes de financement conformes aux exigences des institutions de financement.",
-    track3_li4:"<strong>Appuyer la mise en œuvre, la coordination et le suivi</strong> Appui à la coordination entre les bénéficiaires, les autorités publiques, les entreprises participantes et les partenaires techniques. Suivi des plans de travail et des échéances convenus, avec consolidation des rapports d’avancement et de résultats."
   },
 };
 
-const htmlKeys = ['valentin_bio','app_p','app_rep','ras_p','ras_rep','hero_p','contact_p','track1_li1','track1_li2','track1_li3','track1_li4','track2_li1','track2_li2','track2_li3','track2_li4','track3_li1','track3_li2','track3_li3','track3_li4'];
+const htmlKeys = ['valentin_bio','app_p','app_rep','ras_p','ras_rep','hero_p','contact_p'];
 
 function setLang(lang) {
   const t = translations[lang];
