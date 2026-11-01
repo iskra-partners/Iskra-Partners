@@ -192,8 +192,8 @@ nav.scrolled {
   position: absolute;
   bottom: 30px; left: 50%;
   transform: translateX(-50%);
-  width: 1px; height: 60px;
-  background: linear-gradient(180deg, transparent, var(--gold-soft));
+  width: 1px; height: 48px;
+  background: linear-gradient(180deg, transparent, var(--gold-faint));
   animation: scrollPulse 2.6s var(--ease) infinite;
 }
 @keyframes scrollPulse {
@@ -503,6 +503,16 @@ section {
   margin-top: 1.5rem;
 }
 
+/* ---------- Le meme trait que sous le hero, sans la pulsation : une
+   respiration entre deux sections. Volontairement pas a chaque fois. ---------- */
+
+.rule-tick {
+  width: 1px;
+  height: 48px;
+  margin: 0 auto;
+  background: linear-gradient(180deg, var(--gold-faint), transparent);
+}
+
 /* ---------- Services : l'image en arriere-plan, delavee et desaturee,
    pour qu'elle porte l'atmosphere sans disputer la lecture. Le voile
    blanc en haut et en bas fond la photo dans la page. ---------- */
@@ -624,42 +634,6 @@ section {
   color: var(--cream);
   margin-bottom: 0.5rem;
 }
-
-.track-list {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 1.2rem 3rem;
-  margin: 1.6rem 0 0.4rem;
-}
-
-/* Le detail de chaque service est replie : le visiteur lit trois titres,
-   puis ouvre celui qui le concerne. */
-.service-more { margin: 1.4rem 0 0 calc(72px + 1.6rem); }
-.service-more summary {
-  list-style: none;
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.7rem;
-  font-size: 0.66rem;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: var(--gold);
-  padding: 0.3rem 0;
-  border-bottom: 1px solid var(--gold-faint);
-  transition: color 0.3s var(--ease), border-color 0.3s var(--ease);
-}
-.service-more summary::-webkit-details-marker { display: none; }
-.service-more summary::after {
-  content: '';
-  width: 7px; height: 7px;
-  border-right: 1px solid currentColor;
-  border-bottom: 1px solid currentColor;
-  transform: translateY(-2px) rotate(45deg);
-  transition: transform 0.3s var(--ease);
-}
-.service-more[open] summary::after { transform: translateY(1px) rotate(225deg); }
-.service-more summary:hover { color: var(--gold-light); border-bottom-color: var(--gold); }
 
 .track-list {
   list-style: none;
@@ -1156,9 +1130,18 @@ footer a:hover { color: var(--gold); }
   .challenge-block { grid-template-columns: 1fr; gap: 1.4rem; padding: 0.5rem 0.2rem; }
   .service-row { grid-template-columns: minmax(0, 1fr); gap: 1rem; padding: 2rem 0 2.2rem; }
   .service-row .track-list { grid-template-columns: minmax(0, 1fr); }
-  .service-row .track-list li { padding: 1.3rem 1.2rem; }
-  .service-row .track-list li:nth-child(4) { background: transparent; }
-  .service-row .track-list li:nth-child(3) { background: rgba(1,19,58,0.042); }
+  /* En une colonne, le damier devient un ruban raye : on repasse sur une
+     liste reglee, qui se lit mieux sur un ecran etroit. */
+  .service-row .track-list { border-top: 1px solid var(--cream-faint); }
+  .service-row .track-list li,
+  .service-row .track-list li:nth-child(1),
+  .service-row .track-list li:nth-child(3),
+  .service-row .track-list li:nth-child(4) {
+    background: transparent;
+    padding: 1.15rem 0;
+    border-bottom: 1px solid var(--cream-whisper);
+  }
+  .service-row .track-list li strong { font-size: 0.96rem; margin-bottom: 0.35rem; }
   .ch-aside { border-right: none; padding-right: 0; display: flex; align-items: baseline; gap: 1.1rem; }
   .ch-index { margin-bottom: 0; font-size: 3rem; }
   .ch-main h3 { font-size: 1.4rem; margin-bottom: 1.2rem; }
@@ -1344,6 +1327,8 @@ footer a:hover { color: var(--gold); }
   </div>
 </section>
 
+<div class="rule-tick" aria-hidden="true"></div>
+
 <section id="partners">
   <div class="section-header fade-in">
     <span class="section-label" data-i18n="partners_label">Our partners</span>
@@ -1482,6 +1467,7 @@ footer a:hover { color: var(--gold); }
   </div>
 </section>
 
+<div class="rule-tick" aria-hidden="true"></div>
 
 <section id="contact" class="contact-section">
   <h2 data-i18n="contact_h2" class="fade-in">Let's work together</h2>
